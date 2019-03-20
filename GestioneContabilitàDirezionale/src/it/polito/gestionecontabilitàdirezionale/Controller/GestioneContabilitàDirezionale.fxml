@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="689.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.gestionecontabilitàdirezionale.GestioneContabilitàDirezionaleController">
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.gestionecontabilitàdirezionale.Controller.GestioneContabilitàDirezionaleController">
    <children>
       <VBox prefHeight="514.0" prefWidth="203.0" style="-fx-background-color: #48D1CC;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,7 +29,21 @@
                   </Label>
                </children>
             </Pane>
-            <JFXButton fx:id="buttonteam" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="10.0" onAction="#handleClicks" prefHeight="58.0" prefWidth="203.0" text="Team">
+            <JFXButton fx:id="buttontecnici" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="120.0" onAction="#doTecnici" prefHeight="58.0" prefWidth="203.0" text="Tecnici">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Bloom />
+               </effect>
+               <graphic>
+                  <FontAwesomeIconView glyphName="LIST" size="20" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="buttonteam" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="10.0" onAction="#doTeam" prefHeight="58.0" prefWidth="203.0" text="Team">
                <graphic>
                   <FontAwesomeIconView glyphName="GROUP" size="20" />
                </graphic>
@@ -43,7 +57,7 @@
                   <Bloom />
                </effect>
             </JFXButton>
-            <JFXButton fx:id="buttonreport" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="45.0" onAction="#handleClicks" prefHeight="60.0" prefWidth="203.0" text="Report">
+            <JFXButton fx:id="buttonreport" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="45.0" onAction="#doReport" prefHeight="60.0" prefWidth="203.0" text="Report">
                <graphic>
                   <FontAwesomeIconView glyphName="PENCIL" size="20" />
                </graphic>

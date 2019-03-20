@@ -1,4 +1,4 @@
-package it.polito.gestionecontabilitàdirezionale;
+package it.polito.gestionecontabilitàdirezionale.Controller;
 	
 import it.polito.contabilitàdirezionale.model.ModelMain;
 import javafx.application.Application;

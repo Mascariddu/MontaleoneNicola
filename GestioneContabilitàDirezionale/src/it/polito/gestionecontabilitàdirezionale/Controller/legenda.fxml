@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.20603015075376885" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="378.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Label alignment="CENTER" layoutX="266.0" layoutY="23.0" prefHeight="78.0" prefWidth="598.0" style="-fx-background-color: #48D1CC;" text="LEGENDA" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="INFO" size="19.0" />
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <JFXTextArea editable="false" layoutX="23.0" layoutY="41.0" prefHeight="312.0" prefWidth="598.0" text="1- q.tà degli apparecchi venduti e totale valore fatturato&#10;2- q.tà ricevute fiscale registrate e totale fatturato&#10;3- q.tà ricambi presenti nelle ricevute e totale fatturato &#10;4- q.tà accessori presenti nelle ricevute e totale fatturato&#10;5- q.tà manodopere presenti nelle ricevute e totale fatturato&#10;6- q.tà manodopere presenti nelle ricevute e totale costo&#10;7- q.tà ricambi presenti nelle ricevute e totale costo (LIFO)&#10;8- q.tà manutenzioni reali realizzate e totale fatturato ( per effetto delle promo risulta essere + basso del valore contratto)&#10;9- q.tà manutenzioni reali realizzate e totale valore contratto&#10;10- q.tà appuntamenti di manutenzione straordinarie chiuse in TYFON&#10;11- q.tà ritorni generati dal tecnico (stesso cliente in un periodo minore/uguale a 45 gg)&#10;12- q.tà manodopera ordinarie eseguite negli appuntamenti di ritorno delle manutenzioni straordinarie&#10;13- q.tà man.ordinarie eseguite negli appuntamenti delle man. straordinarie&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

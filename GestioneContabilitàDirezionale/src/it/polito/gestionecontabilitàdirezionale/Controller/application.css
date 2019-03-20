@@ -34,7 +34,7 @@
 
 .table-view .column-header-background{
     -fx-border-width : 0 0.0 1 0;
-    -fx-border-color:#F3F3F3;
+   
 }
 
 .table-view .tree-table-cell{
@@ -43,7 +43,7 @@
 }
 
 .table-view .column-overlay{
-  
+   -fx-background-color:TRANSPARENT;
 }
 
 
@@ -54,6 +54,7 @@
     -fx-background-radius: 1.4, 0, 0;
     -fx-padding: 1; 
 }
+
 
 
 

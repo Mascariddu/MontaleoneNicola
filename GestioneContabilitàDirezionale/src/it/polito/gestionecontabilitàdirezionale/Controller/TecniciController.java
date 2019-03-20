@@ -2,7 +2,7 @@
  * Sample Skeleton for 'GestioneContabilitàDirezionale.fxml' Controller Class
  */
 
-package it.polito.gestionecontabilitàdirezionale;
+package it.polito.gestionecontabilitàdirezionale.Controller;
 
 /**
  * Sample Skeleton for 'GestioneContabilitàDirezionale.fxml' Controller Class
@@ -12,7 +12,6 @@ package it.polito.gestionecontabilitàdirezionale;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-
 
 import it.polito.contabilitàdirezionale.model.ContabilitàAgente;
 import it.polito.contabilitàdirezionale.model.ModelMain;
@@ -34,9 +33,11 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Scene;
 
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -46,7 +47,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
-public class GestioneContabilitàDirezionaleController {
+public class TecniciController {
 ModelMain model;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -66,7 +67,8 @@ ModelMain model;
     @FXML // fx:id="buttonreport"
     private JFXButton buttonreport; // Value injected by FXMLLoader
 
-   
+    @FXML // fx:id="buttonteam"
+    private JFXButton buttontecnici; // Value injected by FXMLLoader
 
     @FXML // fx:id="anchorpane2"
     private AnchorPane anchorpane2; // Value injected by FXMLLoader
@@ -170,21 +172,52 @@ ModelMain model;
      });
      SortedList<ContabilitàAgente> sort= new SortedList<ContabilitàAgente>(flist);
      sort.comparatorProperty().bind(table.comparatorProperty());
-    table.setItems(sort);
+     table.setItems(sort);
     }
    
 
     @FXML
-    void handleClicks(ActionEvent event) {
+    void doReport(ActionEvent event) {
+    	
+    	try {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Report.fxml"));
+		AnchorPane root = (AnchorPane) loader.load();
+		
+		
+		ModelMain model= new ModelMain();
+		ReportController controller= loader.getController();
+		controller.setModelMain(model);
+		
+		root.setMaxSize(1200,1200);
+		
+		anchorpane.getChildren().setAll(root);
+		
+		//((Stage) ((Node)(event.getSource())).getScene().getWindow()).close();
+	} catch(Exception e) {
+		e.printStackTrace();
+	}
+    }
+    @FXML
+    void doTeam(ActionEvent event) {
 
     }
 
+    @FXML
+    void doTecnici(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("GestioneContabilitàDirezionale.fxml"));
+		AnchorPane root = (AnchorPane) loader.load();
+		ModelMain model= new ModelMain();
+		TecniciController controller= loader.getController();
+		controller.setModelMain(model);
+		anchorpane.getChildren().setAll(root);
+    }
     @FXML
     void legenda(ActionEvent event) throws IOException {
-    
+    	
+    if(isOpen!=true) {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
    
-	AnchorPane root = (AnchorPane) loader.load();
+	SplitPane root = (SplitPane) loader.load();
     Scene scene = new Scene(root);
    
     	Stage stage = new Stage();
@@ -192,7 +225,11 @@ ModelMain model;
     	stage.setScene(scene);
     stage.show();
     
-
+    isOpen=true;
+    } else {
+    	
+    }
+      
     	   
     }
  
@@ -270,6 +307,7 @@ public void setModelMain(ModelMain model) {
 	    	this.model=model;
     }
 }
+
 
 
 
