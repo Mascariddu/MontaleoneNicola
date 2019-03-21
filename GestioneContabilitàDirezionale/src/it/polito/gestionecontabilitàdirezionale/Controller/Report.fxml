@@ -6,6 +6,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.Bloom?>
@@ -88,20 +89,24 @@
       </VBox>
       <AnchorPane fx:id="anchorpane2" layoutX="203.0" prefHeight="514.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Enter Name" />
-            <TableView fx:id="table" layoutY="119.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="735.0" prefWidth="997.0" AnchorPane.bottomAnchor="346.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="119.0">
-              <columns>
-                  <TableColumn fx:id="tecnico1" editable="false" prefWidth="58.999969482421875" text="Id" />
-                <TableColumn fx:id="tecnico" prefWidth="154.0" text="Tecnico" />
-                <TableColumn fx:id="tot_fatt" prefWidth="108.0" text="Totale Fatturato" />
-                  <TableColumn fx:id="ric_str" prefWidth="108.0" text="Ricevute_Str vs Appuntamenti" />
-                  <TableColumn fx:id="ma_str" minWidth="6.0" prefWidth="36.0" text="Man_Str vs Appuntamenti" />
-                  <TableColumn fx:id="margine" prefWidth="32.0" text="Margine" />
-                  <TableColumn fx:id="aspett_1" prefWidth="145.0" text="Aspettativa Ricevuta" />
-                  <TableColumn fx:id="Asp_2" prefWidth="256.0" text=" Aspettativa Ricevuta vs Appuntamenti" />
-                  <TableColumn fx:id="incidenza" prefWidth="98.0" text="Incidenza Ritorni" />
-              </columns>
-            </TableView>
+            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Enter Name" />
+            <ScrollPane fx:id="sp" layoutY="119.0" AnchorPane.bottomAnchor="346.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="119.0">
+               <content>
+                  <TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="735.0" prefWidth="997.0">
+                    <columns>
+                        <TableColumn fx:id="tecnico1" editable="false" prefWidth="42.0" text="Id" />
+                      <TableColumn fx:id="tecnico" prefWidth="119.0" text="Tecnico" />
+                      <TableColumn fx:id="tot_fatt" prefWidth="113.0" text="Totale Fatturato" />
+                        <TableColumn fx:id="ric_str" prefWidth="147.0" text="Ricevute_Str vs Appuntamenti" />
+                        <TableColumn fx:id="ma_str" minWidth="0.0" prefWidth="105.0" text="Man_Str vs Appuntamenti" />
+                        <TableColumn fx:id="margine" prefWidth="70.0" text="Margine" />
+                        <TableColumn fx:id="aspett_1" prefWidth="138.0" text="Aspettativa Ricevuta" />
+                        <TableColumn fx:id="Asp_2" prefWidth="97.0" text=" Aspettativa Ricevuta vs Appuntamenti" />
+                        <TableColumn fx:id="incidenza" prefWidth="165.0" text="Incidenza Ritorni" />
+                    </columns>
+                  </TableView>
+               </content>
+            </ScrollPane>
          </children>
       </AnchorPane>
    </children>

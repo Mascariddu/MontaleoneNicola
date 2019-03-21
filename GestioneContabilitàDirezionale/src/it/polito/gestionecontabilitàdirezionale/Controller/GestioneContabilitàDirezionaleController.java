@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import it.polito.contabilitàdirezionale.model.ContabilitàAgente;
 import it.polito.contabilitàdirezionale.model.ModelMain;
+import it.polito.contabilitàdirezionale.model.ReportValoriTecnici;
 import it.polito.gestionecontabilitàdirezionale.db.DBConnect;
 
 
@@ -23,7 +24,9 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
@@ -154,9 +157,18 @@ ModelMain model;
     @FXML // fx:id="enter"
     private JFXTextField enter; // Value injected by FXMLLoader
     
+    Map<Integer,ContabilitàAgente> tecnici= new TreeMap<Integer,ContabilitàAgente>();
+    static Map<Integer,ReportValoriTecnici> valori= new TreeMap<Integer,ReportValoriTecnici>();
     ObservableList<ContabilitàAgente> obs= FXCollections.observableArrayList();
     FilteredList<ContabilitàAgente> flist = new FilteredList<ContabilitàAgente>(obs, e->true);
     boolean isOpen=false;
+    private double tot_fat;
+    private int ric_str_vs_app;
+    private float man_str_vs_app;
+    private float margine;
+    private float asp_ricevuta;
+    private float asp_ricevuta_vs_app;
+    private float incidenza_ritorni;
     @FXML
     void entername(KeyEvent event) {
      enter.textProperty().addListener((observable,oldvalue,newValue) -> {
@@ -178,7 +190,53 @@ ModelMain model;
 
     @FXML
     void doReport(ActionEvent event) {
-    	
+       model.getValori(tecnici);
+       for(ContabilitàAgente ag: tecnici.values()) {
+	   tot_fat=ag.getTot_inst()+ag.getTotale()+ag.getTot_man_ord_reale();
+	   ric_str_vs_app=ag.getMan_str_Tyfon()-ag.getTot_man_str()-ag.getMan_ritorni_ordninaria();
+	   if(ag.getMan_str_Tyfon()!=0) {
+	   man_str_vs_app=(float) ag.getTot_man_str()/(float) ag.getMan_str_Tyfon();
+	   }else {
+		   man_str_vs_app=0;
+		   
+	   }if(ag.getTot_manodopera()!=0) {
+		   
+	   margine=(ag.getTot_manodopera()-ag.getTot_costomanodopera())/ag.getTot_manodopera();
+	   
+	   } else {
+		   margine=0;
+	   }
+          if(ag.getTot_man_str()!=0) {
+        	  
+	         asp_ricevuta=ag.getTotale()/ag.getTot_man_str();
+	         
+              } else {
+            	  
+	            asp_ricevuta=0;
+	            
+                }
+                if(ag.getTotale()!=0 && ag.getMan_ritorni_ordninaria()!=0) {
+                asp_ricevuta_vs_app=ag.getTotale()/(ag.getMan_str_Tyfon()-ag.getMan_ritorni_ordninaria());
+          } else {
+        	      asp_ricevuta_vs_app=0;
+          }
+              if(ag.getMan_straordinaria_ritorni()!=0 && ag.getMan_str_Tyfon()!=0) {
+                  incidenza_ritorni=(float) ag.getMan_straordinaria_ritorni()/(float) ag.getMan_str_Tyfon(); 
+          } else {
+        	        incidenza_ritorni=0;
+          }
+             // new BigDecimal(tot_fat).setScale(2 , BigDecimal.ROUND_UP).doubleValue();
+             tot_fat= Math.floor(tot_fat*100)/100;
+             asp_ricevuta= (float) (Math.floor(asp_ricevuta*100)/100);
+             asp_ricevuta_vs_app= (float) (Math.floor(asp_ricevuta_vs_app*100)/100);
+             margine= (float) (Math.floor(margine*1000)/1000);
+             man_str_vs_app= (float) (Math.floor(man_str_vs_app*1000)/1000);
+             incidenza_ritorni= (float) (Math.floor(incidenza_ritorni*1000)/1000);
+             ReportValoriTecnici rvt=new ReportValoriTecnici(ag.getId(),ag.getName(),tot_fat,ric_str_vs_app,man_str_vs_app,margine,asp_ricevuta,asp_ricevuta_vs_app,incidenza_ritorni);
+             valori.put(rvt.getId(), rvt);
+       }
+   
+   
     	try {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Report.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -217,10 +275,10 @@ ModelMain model;
     if(isOpen!=true) {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
    
-	SplitPane root = (SplitPane) loader.load();
-    Scene scene = new Scene(root);
+	     SplitPane root = (SplitPane) loader.load();
+            Scene scene = new Scene(root);
    
-    	Stage stage = new Stage();
+        	Stage stage = new Stage();
     	    
     	stage.setScene(scene);
     stage.show();
@@ -230,12 +288,17 @@ ModelMain model;
     	
     }
       
+      }
     	   
+    
+    public static Map<Integer, ReportValoriTecnici> getValori() {
+  	  return valori;
     }
  
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() throws SQLException {
-    	Connection conn = DBConnect.getConnection();
+     	
+    	    Connection conn = DBConnect.getConnection();
 		ResultSet res =conn.createStatement().executeQuery("Select*\n" + 
 				"from ProduzioneAgenti");
 		while(res.next()) {

@@ -121,7 +121,7 @@
                   </TableView>
                </content>
             </ScrollPane>
-            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Enter Name" />
+            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Enter Name" />
          </children>
       </AnchorPane>
    </children>

@@ -26,9 +26,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -58,36 +60,38 @@ public class ReportController {
 
     @FXML // fx:id="enter"
     private JFXTextField enter; // Value injected by FXMLLoader
+    @FXML // fx:id="sp"
+    private ScrollPane sp; // Value injected by FXMLLoader
 
     @FXML // fx:id="table"
     private TableView<ReportValoriTecnici> table; // Value injected by FXMLLoader
 
     @FXML // fx:id="tecnico1"
-    private TableColumn<?, ?> tecnico1; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Integer> tecnico1; // Value injected by FXMLLoader
 
     @FXML // fx:id="tecnico"
-    private TableColumn<?, ?> tecnico; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, String> tecnico; // Value injected by FXMLLoader
 
     @FXML // fx:id="tot_fatt"
-    private TableColumn<?, ?> tot_fatt; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Double> tot_fatt; // Value injected by FXMLLoader
 
     @FXML // fx:id="ric_str"
-    private TableColumn<?, ?> ric_str; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Integer> ric_str; // Value injected by FXMLLoader
 
     @FXML // fx:id="ma_str"
-    private TableColumn<?, ?> ma_str; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Float> ma_str; // Value injected by FXMLLoader
 
     @FXML // fx:id="margine"
-    private TableColumn<?, ?> margine; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Float> margine; // Value injected by FXMLLoader
 
     @FXML // fx:id="aspett_1"
-    private TableColumn<?, ?> aspett_1; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Float> aspett_1; // Value injected by FXMLLoader
 
     @FXML // fx:id="Asp_2"
-    private TableColumn<?, ?> Asp_2; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Float> Asp_2; // Value injected by FXMLLoader
 
     @FXML // fx:id="incidenza"
-    private TableColumn<?, ?> incidenza; // Value injected by FXMLLoader
+    private TableColumn<ReportValoriTecnici, Float> incidenza; // Value injected by FXMLLoader
     
     
     ObservableList<ReportValoriTecnici> obs= FXCollections.observableArrayList();
@@ -146,6 +150,11 @@ public class ReportController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	
+    	for(ReportValoriTecnici rp: GestioneContabilitàDirezionaleController.getValori().values()) {
+    		obs.add(rp);
+    	}
+    	
     	    //model.setValori();
         assert anchorpane != null : "fx:id=\"anchorpane\" was not injected: check your FXML file 'Report.fxml'.";
         assert buttonteam != null : "fx:id=\"buttonteam\" was not injected: check your FXML file 'Report.fxml'.";
@@ -162,6 +171,18 @@ public class ReportController {
         assert aspett_1 != null : "fx:id=\"aspett_1\" was not injected: check your FXML file 'Report.fxml'.";
         assert Asp_2 != null : "fx:id=\"Asp_2\" was not injected: check your FXML file 'Report.fxml'.";
         assert incidenza != null : "fx:id=\"incidenza\" was not injected: check your FXML file 'Report.fxml'.";
+        tecnico1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tecnico.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        tot_fatt.setCellValueFactory(new PropertyValueFactory<>("tot_fat"));
+        ric_str.setCellValueFactory(new PropertyValueFactory<>("ric_str_vs_app"));
+        ma_str.setCellValueFactory(new PropertyValueFactory<>("man_str_vs_app"));
+        margine.setCellValueFactory(new PropertyValueFactory<>("margine"));
+        aspett_1.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta"));
+        Asp_2.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta_vs_app"));
+        incidenza.setCellValueFactory(new PropertyValueFactory<>("incidenza_ritorni"));
+        table.setItems(obs);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
 
     }
     
