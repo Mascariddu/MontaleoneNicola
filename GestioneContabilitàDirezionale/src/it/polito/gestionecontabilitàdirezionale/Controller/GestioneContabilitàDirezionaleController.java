@@ -36,7 +36,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-
+import javafx.scene.Node;
 import javafx.scene.Scene;
 
 import javafx.scene.control.ScrollPane;
@@ -256,8 +256,18 @@ ModelMain model;
 	}
     }
     @FXML
-    void doTeam(ActionEvent event) {
-
+    void doTeam(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Team.fxml"));
+    AnchorPane root = (AnchorPane) loader.load();
+		
+		
+		ModelMain model= new ModelMain();
+		TeamController controller= loader.getController();
+		controller.setModelMain(model);
+		
+		root.setMaxSize(1200,1200);
+		
+		anchorpane.getChildren().setAll(root);
     }
 
     @FXML
@@ -272,21 +282,19 @@ ModelMain model;
     @FXML
     void legenda(ActionEvent event) throws IOException {
     	
-    if(isOpen!=true) {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
+           
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
    
-	     SplitPane root = (SplitPane) loader.load();
-            Scene scene = new Scene(root);
+	            SplitPane root = (SplitPane) loader.load();
+                Scene scene = new Scene(root);
    
-        	Stage stage = new Stage();
+             	Stage stage = new Stage();
     	    
-    	stage.setScene(scene);
-    stage.show();
+    	            stage.setScene(scene);
+                stage.show();
     
-    isOpen=true;
-    } else {
-    	
-    }
+            
+              
       
       }
     	   
@@ -363,6 +371,7 @@ ModelMain model;
         table.setItems(obs);
         sp.setFitToHeight(true);
         sp.setFitToWidth(true);
+        
         
     }
 

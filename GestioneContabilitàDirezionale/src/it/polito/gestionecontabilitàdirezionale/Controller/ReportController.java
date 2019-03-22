@@ -113,8 +113,18 @@ public class ReportController {
 		anchorpane.getChildren().setAll(root);
     }
     @FXML
-    void doTeam(ActionEvent event) {
-
+    void doTeam(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Team.fxml"));
+        AnchorPane root = (AnchorPane) loader.load();
+    		
+    		
+    		ModelMain model= new ModelMain();
+    		TeamController controller= loader.getController();
+    		controller.setModelMain(model);
+    		
+    		root.setMaxSize(1200,1200);
+    		
+    		anchorpane.getChildren().setAll(root);
     }
 
     @FXML
@@ -137,9 +147,9 @@ public class ReportController {
 
     @FXML
     void legenda(ActionEvent event) throws IOException {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("legendaReport.fxml"));
+    	    FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
     	   
-    	SplitPane root = (SplitPane) loader.load();
+    	    SplitPane root = (SplitPane) loader.load();
         Scene scene = new Scene(root);
        
         	Stage stage = new Stage();
@@ -180,6 +190,8 @@ public class ReportController {
         aspett_1.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta"));
         Asp_2.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta_vs_app"));
         incidenza.setCellValueFactory(new PropertyValueFactory<>("incidenza_ritorni"));
+    
+    	
         table.setItems(obs);
         sp.setFitToHeight(true);
         sp.setFitToWidth(true);

@@ -91,7 +91,7 @@
          <children>
             <ScrollPane fx:id="sp" layoutY="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
                <content>
-                  <TableView fx:id="table" pickOnBounds="false" prefHeight="424.0" prefWidth="470.0">
+                  <TableView fx:id="table" pickOnBounds="false">
                      <columns>
                         <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
                         <TableColumn fx:id="members" prefWidth="194.0" text="TECNICO" />

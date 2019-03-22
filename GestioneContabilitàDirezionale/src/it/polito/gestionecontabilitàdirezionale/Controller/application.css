@@ -50,6 +50,17 @@
     -fx-background-radius: 1.4, 0, 0;
     -fx-padding: 1; 
 }
+.tab {
+	-fx-background-color:#48D1CC;
+	-fx-pref-width: 120;
+	-fx-pref-height: 30;
+	-fx-text-fill: #48D1CC;
+}
+
+.tab-header-backgroud{
+	-fx-background-color:#FF7F50;
+	-fx-text-fill: #FF7F50;
+}
 
 
 
