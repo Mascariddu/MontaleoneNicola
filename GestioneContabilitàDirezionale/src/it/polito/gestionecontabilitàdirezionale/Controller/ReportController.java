@@ -71,7 +71,7 @@ public class ReportController {
 
     @FXML // fx:id="tecnico"
     private TableColumn<ReportValoriTecnici, String> tecnico; // Value injected by FXMLLoader
-
+   
     @FXML // fx:id="tot_fatt"
     private TableColumn<ReportValoriTecnici, Double> tot_fatt; // Value injected by FXMLLoader
 
@@ -114,6 +114,8 @@ public class ReportController {
     }
     @FXML
     void doTeam(ActionEvent event) throws IOException {
+    	ModelMain.creaGrafo();
+    	ModelMain.creaGrafoRitorni();
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Team.fxml"));
         AnchorPane root = (AnchorPane) loader.load();
     		

@@ -11,18 +11,31 @@ import com.jfoenix.controls.JFXTextField;
 
 import it.polito.contabilitàdirezionale.model.ModelMain;
 
+import it.polito.contabilitàdirezionale.model.TecnicoTeam;
+import it.polito.contabilitàdirezionale.model.TecnicoTeamRitorni;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
+
+
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -54,13 +67,19 @@ public class TeamController {
     private Tab fatturato; // Value injected by FXMLLoader
 
     @FXML // fx:id="table1"
-    private TableView<?> table1; // Value injected by FXMLLoader
+    private TableView<TecnicoTeam> table1; // Value injected by FXMLLoader
+    @FXML // fx:id="tecnico"
+    private TableColumn<TecnicoTeam, Integer> ida1; // Value injected by FXMLLoader
+    @FXML // fx:id="tecnico"
+    private TableColumn<TecnicoTeam, Integer> idb1; // Value injected by FXMLLoader
+    @FXML // fx:id="tecnico"
+    private TableColumn<TecnicoTeam, Double> fatturato1; // Value injected by FXMLLoader
 
     @FXML // fx:id="tecnicoa1"
-    private TableColumn<?, ?> tecnicoa1; // Value injected by FXMLLoader
+    private TableColumn<TecnicoTeam,String> tecnicoa1; // Value injected by FXMLLoader
 
     @FXML // fx:id="tecnicob1"
-    private TableColumn<?, ?> tecnicob1; // Value injected by FXMLLoader
+    private TableColumn<TecnicoTeam, String> tecnicob1; // Value injected by FXMLLoader
 
     @FXML // fx:id="enter2"
     private JFXTextField enter2; // Value injected by FXMLLoader
@@ -69,17 +88,31 @@ public class TeamController {
     private Tab Incidenza_ritorni; // Value injected by FXMLLoader
 
     @FXML // fx:id="table2"
-    private TableView<?> table2; // Value injected by FXMLLoader
-
+    private TableView<TecnicoTeamRitorni> table2; // Value injected by FXMLLoader
+    @FXML // fx:id="tecnico"
+    private TableColumn<TecnicoTeamRitorni, Integer> ida2; // Value injected by FXMLLoader
+    @FXML // fx:id="tecnico"
+    private TableColumn<TecnicoTeamRitorni, Integer> idb2; // Value injected by FXMLLoader
     @FXML // fx:id="tecnicoa2"
-    private TableColumn<?, ?> tecnicoa2; // Value injected by FXMLLoader
+    private TableColumn<TecnicoTeamRitorni, String> tecnicoa2; // Value injected by FXMLLoader
 
     @FXML // fx:id="tecnicob2"
-    private TableColumn<?, ?> tecnicob2; // Value injected by FXMLLoader
+    private TableColumn<TecnicoTeamRitorni, String> tecnicob2; // Value injected by FXMLLoader
+    @FXML // fx:id="tecnico"
+    private TableColumn<TecnicoTeamRitorni, Double> ritorni; // Value injected by FXMLLoader
 
     @FXML // fx:id="enter"
     private JFXTextField enter; // Value injected by FXMLLoader
-
+    @FXML // fx:id="sp"
+    private ScrollPane sp; // Value injected by FXMLLoader
+    
+    ObservableList<TecnicoTeam> obs= FXCollections.observableArrayList();
+    FilteredList<TecnicoTeam> flist = new FilteredList<TecnicoTeam>(obs, e->true);
+    
+    ObservableList<TecnicoTeamRitorni> obs2= FXCollections.observableArrayList();
+    FilteredList<TecnicoTeamRitorni> flist2 = new FilteredList<TecnicoTeamRitorni>(obs2, e->true);
+    
+    
     @FXML
     void doReport(ActionEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Report.fxml"));
@@ -112,30 +145,64 @@ public class TeamController {
 
     @FXML
     void entername(KeyEvent event) {
-
+     	enter.textProperty().addListener((observable,oldvalue,newValue) -> {
+          	 flist2.setPredicate((Predicate<? super TecnicoTeamRitorni >) (TecnicoTeamRitorni t)->{
+          		 if(newValue.isEmpty() || newValue==null) {
+          			 return true;
+          		 } else if (t.getNome1().contains(newValue.toUpperCase()) || t.getNome2().contains(newValue.toUpperCase())) {
+          			 return true;
+          		 } 
+          			 
+          		 return false;
+          	 });
+           });
+           SortedList<TecnicoTeamRitorni> sort= new SortedList<TecnicoTeamRitorni>(flist2);
+           sort.comparatorProperty().bind(table2.comparatorProperty());
+           table2.setItems(sort);
     }
 
     @FXML
     void entername2(KeyEvent event) {
-
+    	enter2.textProperty().addListener((observable,oldvalue,newValue) -> {
+         	 flist.setPredicate((Predicate<? super TecnicoTeam >) (TecnicoTeam t)->{
+         		 if(newValue.isEmpty() || newValue==null) {
+         			 return true;
+         		 } else if (t.getNome1().contains(newValue.toUpperCase()) || t.getNome2().contains(newValue.toUpperCase())) {
+         			 return true;
+         		 } 
+         			 
+         		 return false;
+         	 });
+          });
+          SortedList<TecnicoTeam> sort= new SortedList<TecnicoTeam>(flist);
+          sort.comparatorProperty().bind(table1.comparatorProperty());
+          table1.setItems(sort);
     }
 
     @FXML
     void legenda(ActionEvent event) throws IOException {
-    	 FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
+    	    FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
   	   
  	    SplitPane root = (SplitPane) loader.load();
-     Scene scene = new Scene(root);
+        Scene scene = new Scene(root);
     
      	Stage stage = new Stage();
      	    
      	stage.setScene(scene);
-     stage.show();
+        stage.show();
 
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	
+             	for(TecnicoTeam t : ModelMain.getTeam()) {
+             		obs.add(t);
+             	}
+             	for(TecnicoTeamRitorni t2 : ModelMain.getTeamRitorni()) {
+             		obs2.add(t2);
+             	}	
+             		
         assert anchorpane != null : "fx:id=\"anchorpane\" was not injected: check your FXML file 'Team.fxml'.";
         assert buttontecnici != null : "fx:id=\"buttontecnici\" was not injected: check your FXML file 'Team.fxml'.";
         assert buttonteam != null : "fx:id=\"buttonteam\" was not injected: check your FXML file 'Team.fxml'.";
@@ -150,8 +217,26 @@ public class TeamController {
         assert table2 != null : "fx:id=\"table2\" was not injected: check your FXML file 'Team.fxml'.";
         assert tecnicoa2 != null : "fx:id=\"tecnicoa2\" was not injected: check your FXML file 'Team.fxml'.";
         assert tecnicob2 != null : "fx:id=\"tecnicob2\" was not injected: check your FXML file 'Team.fxml'.";
+        assert ida1 != null : "fx:id=\"ida1\" was not injected: check your FXML file 'Team.fxml'.";
+        assert idb1 != null : "fx:id=\"tecnicoa2\" was not injected: check your FXML file 'Team.fxml'.";
+        assert fatturato1 != null : "fx:id=\"tecnicob2\" was not injected: check your FXML file 'Team.fxml'.";
         assert enter != null : "fx:id=\"enter\" was not injected: check your FXML file 'Team.fxml'.";
-        
+        ida1.setCellValueFactory(new PropertyValueFactory<>("id1"));
+        idb1.setCellValueFactory(new PropertyValueFactory<>("id2"));
+        fatturato1.setCellValueFactory(new PropertyValueFactory<>("fatturato"));
+        tecnicoa1.setCellValueFactory(new PropertyValueFactory<>("nome1"));
+        tecnicob1.setCellValueFactory(new PropertyValueFactory<>("nome2"));
+        table1.setItems(obs);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        ida2.setCellValueFactory(new PropertyValueFactory<>("id1"));
+        idb2.setCellValueFactory(new PropertyValueFactory<>("id2"));
+        ritorni.setCellValueFactory(new PropertyValueFactory<>("ritorni"));
+        tecnicoa2.setCellValueFactory(new PropertyValueFactory<>("nome1"));
+        tecnicob2.setCellValueFactory(new PropertyValueFactory<>("nome2"));
+        table2.setItems(obs2);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
 
     }
     public void setModelMain(ModelMain model) {

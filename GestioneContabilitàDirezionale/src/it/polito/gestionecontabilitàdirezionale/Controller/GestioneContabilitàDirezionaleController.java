@@ -36,7 +36,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+
 import javafx.scene.Scene;
 
 import javafx.scene.control.ScrollPane;
@@ -257,6 +257,9 @@ ModelMain model;
     }
     @FXML
     void doTeam(ActionEvent event) throws IOException {
+    	this.doReport(event);
+    	ModelMain.creaGrafo();
+    	ModelMain.creaGrafoRitorni();
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Team.fxml"));
     AnchorPane root = (AnchorPane) loader.load();
 		
