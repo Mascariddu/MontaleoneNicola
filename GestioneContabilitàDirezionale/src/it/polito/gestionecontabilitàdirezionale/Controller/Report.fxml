@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.gestionecontabilitàdirezionale.Controller.ReportController">
+<AnchorPane fx:id="anchorpane" minHeight="1200.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.gestionecontabilitàdirezionale.Controller.ReportController">
    <children>
       <VBox prefHeight="514.0" prefWidth="203.0" style="-fx-background-color: #48D1CC;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,7 +29,7 @@
                   </Label>
                </children>
             </Pane>
-            <JFXButton fx:id="buttontecnici" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" onAction="#doTecnici" prefHeight="58.0" prefWidth="203.0" text="Tecnici">
+            <JFXButton fx:id="buttontecnici" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" onAction="#doTecnici" prefHeight="58.0" prefWidth="203.0" ripplerFill="WHITE" text="Tecnici">
                <padding>
                   <Insets left="50.0" />
                </padding>
@@ -43,7 +43,7 @@
                   <FontAwesomeIconView glyphName="LIST" size="20" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="buttonteam" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="10.0" onAction="#doTeam" prefHeight="58.0" prefWidth="203.0" text="Team">
+            <JFXButton fx:id="buttonteam" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="10.0" onAction="#doTeam" prefHeight="58.0" prefWidth="203.0" ripplerFill="WHITE" text="Team">
                <graphic>
                   <FontAwesomeIconView glyphName="GROUP" size="20" />
                </graphic>
@@ -57,7 +57,7 @@
                   <Bloom />
                </effect>
             </JFXButton>
-            <JFXButton fx:id="buttonreport" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="45.0" onAction="#doReport" prefHeight="60.0" prefWidth="203.0" text="Report">
+            <JFXButton fx:id="buttonreport" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="45.0" onAction="#doReport" prefHeight="60.0" prefWidth="203.0" ripplerFill="WHITE" text="Report">
                <graphic>
                   <FontAwesomeIconView glyphName="PENCIL" size="20" />
                </graphic>
@@ -71,7 +71,7 @@
                   <Bloom />
                </effect>
             </JFXButton>
-            <JFXButton alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="80.0" onAction="#legenda" prefHeight="60.0" prefWidth="203.0" text="Legenda">
+            <JFXButton alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="80.0" onAction="#legenda" prefHeight="60.0" prefWidth="203.0" ripplerFill="WHITE" text="Legenda">
                <graphic>
                   <FontAwesomeIconView glyphName="INFO" size="20.0" />
                </graphic>
@@ -87,23 +87,26 @@
             </JFXButton>
          </children>
       </VBox>
-      <AnchorPane fx:id="anchorpane2" layoutX="203.0" prefHeight="514.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="anchorpane2" layoutX="203.0" minHeight="514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Enter Name" />
-            <ScrollPane fx:id="sp" layoutY="119.0" AnchorPane.bottomAnchor="346.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="119.0">
+            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Immetti nome o Id">
+               <font>
+                  <Font size="11.0" />
+               </font></JFXTextField>
+            <ScrollPane fx:id="sp" layoutX="14.0" layoutY="188.0" prefHeight="481.0" prefWidth="961.0">
                <content>
-                  <TableView fx:id="table" minHeight="-Infinity" minWidth="-Infinity" prefHeight="735.0" prefWidth="997.0">
-                    <columns>
+                  <TableView fx:id="table" minHeight="442.0" minWidth="942.0" prefHeight="465.0" prefWidth="942.0">
+                     <columns>
                         <TableColumn fx:id="tecnico1" editable="false" prefWidth="42.0" text="Id" />
-                      <TableColumn fx:id="tecnico" prefWidth="119.0" text="Tecnico" />
-                      <TableColumn fx:id="tot_fatt" prefWidth="113.0" text="Totale Fatturato" />
+                        <TableColumn fx:id="tecnico" prefWidth="119.0" text="Tecnico" />
+                        <TableColumn fx:id="tot_fatt" prefWidth="113.0" text="Totale Fatturato" />
                         <TableColumn fx:id="ric_str" prefWidth="147.0" text="Ricevute_Str vs Appuntamenti" />
                         <TableColumn fx:id="ma_str" minWidth="0.0" prefWidth="105.0" text="Man_Str vs Appuntamenti" />
                         <TableColumn fx:id="margine" prefWidth="70.0" text="Margine" />
                         <TableColumn fx:id="aspett_1" prefWidth="138.0" text="Aspettativa Ricevuta" />
                         <TableColumn fx:id="Asp_2" prefWidth="115.0" text=" Aspettativa Ricevuta vs Appuntamenti" />
-                        <TableColumn fx:id="incidenza" prefWidth="147.0" text="Incidenza Ritorni" />
-                    </columns>
+                        <TableColumn fx:id="incidenza" prefWidth="121.0" text="Incidenza Ritorni" />
+                     </columns>
                   </TableView>
                </content>
             </ScrollPane>

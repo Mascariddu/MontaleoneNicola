@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.gestionecontabilitàdirezionale.Controller.GestioneContabilitàDirezionaleController">
+<AnchorPane fx:id="anchorpane" minHeight="1200.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.gestionecontabilitàdirezionale.Controller.GestioneContabilitàDirezionaleController">
    <children>
       <VBox prefHeight="514.0" prefWidth="203.0" style="-fx-background-color: #48D1CC;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,7 +29,7 @@
                   </Label>
                </children>
             </Pane>
-            <JFXButton fx:id="buttontecnici" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="120.0" onAction="#doTecnici" prefHeight="58.0" prefWidth="203.0" text="Tecnici">
+            <JFXButton fx:id="buttontecnici" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="120.0" mnemonicParsing="false" onAction="#doTecnici" prefHeight="58.0" prefWidth="203.0" ripplerFill="WHITE" text="Tecnici">
                <padding>
                   <Insets left="50.0" />
                </padding>
@@ -37,7 +37,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                <effect>
-                  <Bloom />
+                  <Bloom threshold="0.2" />
                </effect>
                <graphic>
                   <FontAwesomeIconView glyphName="LIST" size="20" />
@@ -57,7 +57,7 @@
                   <Bloom />
                </effect>
             </JFXButton>
-            <JFXButton fx:id="buttonreport" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="45.0" onAction="#doReport" prefHeight="60.0" prefWidth="203.0" text="Report">
+            <JFXButton fx:id="buttonreport" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="10.0" layoutY="45.0" onAction="#doReport" prefHeight="60.0" prefWidth="203.0" ripplerFill="WHITE" text="Report">
                <graphic>
                   <FontAwesomeIconView glyphName="PENCIL" size="20" />
                </graphic>
@@ -87,11 +87,15 @@
             </JFXButton>
          </children>
       </VBox>
-      <AnchorPane fx:id="anchorpane2" layoutX="203.0" prefHeight="514.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="anchorpane2" layoutX="203.0" minHeight="514.0" minWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ScrollPane fx:id="sp" layoutY="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
+            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Immetti nome o Id">
+               <font>
+                  <Font size="11.0" />
+               </font></JFXTextField>
+            <ScrollPane fx:id="sp" layoutX="36.0" layoutY="119.0" prefHeight="527.0" prefWidth="800.0">
                <content>
-                  <TableView fx:id="table" pickOnBounds="false">
+                  <TableView fx:id="table" pickOnBounds="false" prefHeight="503.0" prefWidth="800.0">
                      <columns>
                         <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
                         <TableColumn fx:id="members" prefWidth="194.0" text="TECNICO" />
@@ -121,7 +125,6 @@
                   </TableView>
                </content>
             </ScrollPane>
-            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Enter Name" />
          </children>
       </AnchorPane>
    </children>
