@@ -1,6 +1,6 @@
 package it.polito.contabilitàdirezionale.model;
 
-public class ReportValoriTecnici {
+public class ReportValoriTecnici implements Comparable<ReportValoriTecnici>{
 	private int id;
 	private String nome;
 	private double tot_fat;
@@ -106,6 +106,13 @@ public class ReportValoriTecnici {
 	@Override
 	public String toString() {
 		return  nome ;
+	}
+
+	
+	@Override
+	public int compareTo(ReportValoriTecnici o) {
+		// TODO Auto-generated method stub
+		return this.getNome().compareTo(o.getNome());
 	}
 
 

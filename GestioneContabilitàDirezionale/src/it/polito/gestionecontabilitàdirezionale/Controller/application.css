@@ -18,11 +18,12 @@
 .table-view .column-header-background .filler{
     -fx-background-color:TRANSPARENT;
 }
-
+.label :unfocused {
+	-fx-background-color:  #48D1CC ;
+}
 .table-view .column-header{
     -fx-border-width : 1 1 1 1;
-    
-}
+    }
 
 
 

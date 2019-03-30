@@ -11,16 +11,21 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+
+import it.polito.contabilitàdirezionale.model.ContabilitàAgente;
 import it.polito.contabilitàdirezionale.model.ModelMain;
 import it.polito.contabilitàdirezionale.model.ReportValoriTecnici;
 import it.polito.contabilitàdirezionale.model.TecnicoTeam;
 import it.polito.contabilitàdirezionale.model.TecnicoTeamRitorni;
 
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.function.Predicate;
 
+
+import java.util.ResourceBundle;
+
+import java.util.function.Predicate;
 
 
 import javafx.collections.FXCollections;
@@ -31,14 +36,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.chart.PieChart;
+
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -60,7 +66,8 @@ public class TeamController {
 
 	@FXML 
 	private JFXTextArea setArea;
-
+	@FXML 
+	private PieChart pie;
 
 	@FXML // fx:id="buttontecnici"
 	private JFXButton buttontecnici; // Value injected by FXMLLoader
@@ -97,10 +104,10 @@ public class TeamController {
 
 	@FXML // fx:id="enter2"
 	private JFXTextField enter2; // Value injected by FXMLLoader
-	
+
 	@FXML // fx:id="enter2"
 	private JFXTextField enterf; // Value injected by FXMLLoader
-	
+
 	@FXML // fx:id="enter2"
 	private JFXTextField enterr; // Value injected by FXMLLoader
 
@@ -135,8 +142,6 @@ public class TeamController {
 
 	ObservableList<TecnicoTeamRitorni> obs2= FXCollections.observableArrayList();
 	FilteredList<TecnicoTeamRitorni> flist2 = new FilteredList<TecnicoTeamRitorni>(obs2, e->true);
-
-
 	@FXML
 	void doReport(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Report.fxml"));
@@ -156,6 +161,7 @@ public class TeamController {
 	void doTeam(ActionEvent event) {
 
 	}
+	
 
 	@FXML
 	void doTecnici(ActionEvent event) throws IOException {
@@ -185,7 +191,7 @@ public class TeamController {
 		table2.setItems(sort);
 	}
 
-    
+
 	@FXML
 	void enterrit(KeyEvent event) {
 		enterr.textProperty().addListener((observable,oldvalue,newValue) -> {
@@ -193,7 +199,7 @@ public class TeamController {
 				if(newValue.isEmpty() || newValue==null) {
 					return true;
 				} 
-				 else if (t.getRitorni()<=Integer.parseInt(newValue))  {
+				else if (t.getRitorni()<=Integer.parseInt(newValue))  {
 					return true;
 				} 
 
@@ -204,7 +210,7 @@ public class TeamController {
 		sort.comparatorProperty().bind(table2.comparatorProperty());
 		table2.setItems(sort);
 	}
-	
+
 	@FXML
 	void entername2(KeyEvent event) {
 		enter2.textProperty().addListener((observable,oldvalue,newValue) -> {
@@ -222,7 +228,7 @@ public class TeamController {
 		sort.comparatorProperty().bind(table1.comparatorProperty());
 		table1.setItems(sort);
 	}
-	
+
 	@FXML
 	void enterfat(KeyEvent event) {
 		enterf.textProperty().addListener((observable,oldvalue,newValue) -> {
@@ -240,10 +246,11 @@ public class TeamController {
 		sort.comparatorProperty().bind(table1.comparatorProperty());
 		table1.setItems(sort);
 	}
-	
+
 
 	@FXML
 	void legenda(ActionEvent event) throws IOException {
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
 
 		SplitPane root = (SplitPane) loader.load();
@@ -254,88 +261,244 @@ public class TeamController {
 		stage.setScene(scene);
 		stage.show();
 
+
+
 	}
 
 	@FXML
 	void combo(ActionEvent event) {
 		
+		ContabilitàAgente ca=null;
+		
 		ReportValoriTecnici rvt= combobox.getValue();
-
-		if(rvt!= null) {
-			if(rvt.getIncidenza_ritorni()<=.25 && rvt.getRic_str_vs_app()<0) {
-
-				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
-						+ "Il dato in statistica è negativo significa che il numero delle ricevute "
+		
+		pie.getData().clear();
+		pie.setTitle("Fatturato: "+rvt.getNome());
+	    pie.getData().addAll(ModelMain.initPieArea(rvt));
+		
+	    String result=ModelMain.getTeamProposto(rvt);
+		
+		for(ContabilitàAgente c : GestioneContabilitàDirezionaleController.getTecnici().values())  {
+			if(c.getId()==rvt.getId()) {
+				ca=c;
+			}
+		}
+		if(rvt.getIncidenza_ritorni()>=.25 && rvt.getRic_str_vs_app()<0 ) {
+			if(ca.getTot_costomanodopera()>ca.getTot_manodopera()) {
+				setArea.setText("Costo Manodopera("+ca.getTot_costomanodopera()+")>Ricavi("+ca.getTot_manodopera()+")\nIndice che non vengono "
+						+ "richiesti i corrispettivi manodopera al cliente in misura corretta.\nTroppe ricevute a 0 verso quelle valorizzate.\n"
+						+ "Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
+						+ "Il dato in statistica è negativo, significa che il numero delle ricevute "
 						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
 						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria. "
-						+ "Il risultato è da leggere quindi positivamente\n"
+						+ "Il risultato è da leggere quindi positivamente.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ " Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
+						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)"
 						+ "\n"
 						+ "OBIETTIVI:\n"
 						+ "\n"
-						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
-						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
-						+ "ove è difficile richiedere il corrispettivo ");
-			}  if(rvt.getIncidenza_ritorni()>=.25 && rvt.getRic_str_vs_app()>0) {
+						+ "-Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
+						+ "-Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi. "
+						+ "ove è difficile richiedere il corrispettivo\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ "\n"
+						+result+"\n");
+			} else {
 				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
-						+ "Il dato in statistica è positivo significa che il numero delle ricevute "
+						+ "Il dato in statistica è negativo, significa che il numero delle ricevute "
 						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
-						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria"
-						+ "Il risultato è da leggere quindi negativamente\n"
+						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria. "
+						+ "Il risultato è da leggere quindi positivamente.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ " Il dato obiettivo è negativo(deve essere minore di 0.25)\n"
+						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)."
 						+ "\n"
 						+ "OBIETTIVI:\n"
 						+ "\n"
-						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
 						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
-						+ "ove è difficile richiedere il corrispettivo ");
-			}if(rvt.getIncidenza_ritorni()>=.25 && rvt.getRic_str_vs_app()<0) {
-				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
-						+ "Il dato in statistica è negativo significa che il numero delle ricevute "
-						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
-						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria "
-						+ "Il risultato è da leggere quindi positivamente\n"
-						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ " Il dato obiettivo è negativo(deve essere minore di 0.25)"
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
 						+ "\n"
-						+ "OBIETTIVI:\n"
+						+ "PROPOSTA TEAM:\n"
+						+ ""
 						+ "\n"
-						+ "-Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
-						+ "-Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
-						+ "ove è difficile richiedere il corrispettivo ");
-			}if(rvt.getIncidenza_ritorni()<=.25 && rvt.getRic_str_vs_app()>0) {
-
-				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
-						+ "Il dato in statistica è postivo significa che il numero delle ricevute "
+						+result+"\n");
+			}
+		}
+		if(rvt.getIncidenza_ritorni()<=.25 && rvt.getRic_str_vs_app()>0  ) {
+			if(ca.getTot_costomanodopera()>ca.getTot_manodopera()) {
+				setArea.setText("Costo Manodopera("+ca.getTot_costomanodopera()+")>Ricavi("+ca.getTot_manodopera()+")\nIndice che non vengono " 
+						+ "richiesti i corrispettivi manodopera al cliente in misura corretta.\nTroppe ricevute a 0 verso quelle valorizzate.\n"
+						+ "Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
+						+ "Il dato in statistica è postivo, significa che il numero delle ricevute "
 						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica"
 						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
 						+ "Il risultato è da leggere quindi negativamente"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ " Il dato obiettivo è positivo(deve essere minore di 0.25)"
+						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)"
 						+ "\n"
 						+ "OBIETTIVI:\n"
 						+ "\n"
 						+ "-Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
 						+ "-Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
-						+ "ove è difficile richiedere il corrispettivo ");
-
-			}	else if(rvt.getIncidenza_ritorni()==.0 && rvt.getRic_str_vs_app()==0) {
-				setArea.setText("Valori insufficenti: assunzione temporanea per installazioni");
+						+ "ove è difficile richiedere il corrispettivo\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso"
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ ""
+						+ "\n"
+						+result+"\n");
+			}else {
+				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
+						+ "Il dato in statistica è positivo, significa che il numero delle ricevute "
+						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
+						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
+						+ "Il risultato è da leggere quindi negativamente.\n"
+						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
+						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
+						+ "\n"
+						+ "OBIETTIVI:\n"
+						+ "\n"
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
+						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso"
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ "\n"
+						+ "\n"
+						+result+"\n");
 			}
-		} else {
-			showInformation("Devi selezionare un tecnico");
+		}
+		if(rvt.getIncidenza_ritorni()>=.25 && rvt.getRic_str_vs_app()>0  ) {
+			if(ca.getTot_costomanodopera()>ca.getTot_manodopera()) {
+				setArea.setText("Costo Manodopera("+ca.getTot_costomanodopera()+")>Ricavi("+ca.getTot_manodopera()+")\nIndice che non vengono " 
+						+ "richiesti i corrispettivi manodopera al cliente in misura corretta.\nTroppe ricevute a 0 verso quelle valorizzate.\n"
+						+ "Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
+						+ "Il dato in statistica è positivo, significa che il numero delle ricevute "
+						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
+						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
+						+ "Il risultato è da leggere quindi negativamente.\n"
+						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
+						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)\n"
+						+ "\n"
+						+ "OBIETTIVI:\n"
+						+ "\n"
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
+						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ "\n"
+						+result+"\n");
+			} else {
+				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
+						+ "Il dato in statistica è positivo, significa che il numero delle ricevute "
+						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
+						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
+						+ "Il risultato è da leggere quindi negativamente.\n"
+						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
+						+ "Il dato obiettivo è negativo(deve essere minore di 0.25).\n"
+						+ "\n"
+						+ "OBIETTIVI:\n"
+						+ "\n"
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
+						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ "\n"
+						+ "\n"
+						+result+"\n");
+			}
+
+		}
+		if(rvt.getIncidenza_ritorni()<=.25 && rvt.getRic_str_vs_app()<0 ) {
+			if(ca.getTot_costomanodopera()>ca.getTot_manodopera()) {
+
+				setArea.setText("Costo Manodopera("+ca.getTot_costomanodopera()+")>Ricavi("+ca.getTot_manodopera()+")\nIndice che non vengono "  
+						+"richiesti i corrispettivi manodopera al cliente in misura corretta.\nTroppe ricevute a 0 verso quelle valorizzate.\n"
+						+ "Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
+						+ "Il dato in statistica è negativo, significa che il numero delle ricevute "
+						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
+						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria. "
+						+ "Il risultato è da leggere quindi positivamente.\n"
+						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
+						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
+						+ "\n"
+						+ "OBIETTIVI:\n"
+						+ "\n"
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
+						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ ""
+						+ "\n"
+						+result+"\n");
+			}else {
+				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
+						+ "Il dato in statistica è negativo, significa che il numero delle ricevute "
+						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
+						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria. "
+						+ "Il risultato è da leggere quindi positivamente.\n"
+						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
+						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
+						+ "\n"
+						+ "OBIETTIVI:\n"
+						+ "\n"
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
+						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
+						+ "\n"
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ ""
+						+ "\n"
+						+result+"\n");
+			}
+		}
+		else if(rvt.getIncidenza_ritorni()==.0 && rvt.getRic_str_vs_app()==0 ) {
+			if(ca.getTot_costomanodopera()>ca.getTot_manodopera()) {
+				setArea.setText("Costo Manodopera("+ca.getCostomanodopera()+")>Ricavi("+ca.getTot_manodopera()+")\nIndice che non vengono" 
+						+ "richiesti i corrispettivi manodopera al cliente in misura corretta.\nTroppe ricevute a 0 verso quelle valorizzate.\n"
+						+ "Valori insufficenti: assunzione temporanea per installazioni\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ "\n"
+						+ "\n"
+						+result+"\n");
+			} else {
+				setArea.setText("Valori insufficenti: assunzione temporanea per installazioni.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
+						+ "\n"
+						+ "PROPOSTA TEAM:\n"
+						+ "\n"
+						+ "\n"
+						+result+"\n");
+			}
+
 		}
 
 	} 
-	private void showInformation(String messaggioSuccesso) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setHeaderText(null);
-		alert.setContentText(messaggioSuccesso);
-		alert.showAndWait();
-
-	}
+	
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
 
@@ -365,6 +528,7 @@ public class TeamController {
 		assert fatturato1 != null : "fx:id=\"tecnicob2\" was not injected: check your FXML file 'Team.fxml'.";
 		assert enter != null : "fx:id=\"enter\" was not injected: check your FXML file 'Team.fxml'.";
 		assert combobox != null : "fx:id=\"enter\" was not injected: check your FXML file 'Team.fxml'.";
+		assert pie != null : "fx:id=\"enter\" was not injected: check your FXML file 'Team.fxml'.";
 		ida1.setCellValueFactory(new PropertyValueFactory<>("id1"));
 		idb1.setCellValueFactory(new PropertyValueFactory<>("id2"));
 		fatturato1.setCellValueFactory(new PropertyValueFactory<>("fatturato"));
@@ -381,10 +545,10 @@ public class TeamController {
 		table2.setItems(obs2);
 		sp.setFitToHeight(true);
 		sp.setFitToWidth(true);
-		combobox.getItems().addAll(GestioneContabilitàDirezionaleController.getValori().values());
-		
+		combobox.getItems().addAll(GestioneContabilitàDirezionaleController.getValori());
 
-		
+
+
 
 	}
 	public void setModelMain(ModelMain model) {

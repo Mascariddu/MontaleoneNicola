@@ -93,7 +93,7 @@
                <font>
                   <Font size="11.0" />
                </font></JFXTextField>
-            <ScrollPane fx:id="sp" layoutX="14.0" layoutY="188.0" prefHeight="481.0" prefWidth="961.0">
+            <ScrollPane fx:id="sp" layoutX="25.0" layoutY="128.0" prefHeight="481.0" prefWidth="961.0">
                <content>
                   <TableView fx:id="table" minHeight="442.0" minWidth="942.0" prefHeight="465.0" prefWidth="942.0">
                      <columns>
@@ -110,6 +110,20 @@
                   </TableView>
                </content>
             </ScrollPane>
+            <JFXButton fx:id="buttontpie" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="780.0" layoutY="34.0" onAction="#pie" prefHeight="47.0" prefWidth="203.0" ripplerFill="MEDIUMTURQUOISE" text="PieChart Fatturato">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Bloom />
+               </effect>
+               <graphic>
+                  <FontAwesomeIconView glyphName="PIE_CHART" size="20" />
+               </graphic>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>

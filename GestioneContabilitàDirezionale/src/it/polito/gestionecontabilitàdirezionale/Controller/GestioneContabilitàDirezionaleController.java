@@ -24,6 +24,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
@@ -157,11 +159,11 @@ public class GestioneContabilitàDirezionaleController {
 	@FXML // fx:id="enter"
 	private JFXTextField enter; // Value injected by FXMLLoader
 
-	Map<Integer,ContabilitàAgente> tecnici= new TreeMap<Integer,ContabilitàAgente>();
+	static Map<Integer,ContabilitàAgente> tecnici= new TreeMap<Integer,ContabilitàAgente>();
 	static Map<Integer,ReportValoriTecnici> valori= new TreeMap<Integer,ReportValoriTecnici>();
 	ObservableList<ContabilitàAgente> obs= FXCollections.observableArrayList();
 	FilteredList<ContabilitàAgente> flist = new FilteredList<ContabilitàAgente>(obs, e->true);
-	boolean isOpen=false;
+	 private boolean isOpen=false;
 	private double tot_fat;
 	private int ric_str_vs_app;
 	private float man_str_vs_app;
@@ -275,6 +277,7 @@ public class GestioneContabilitàDirezionaleController {
 
 	@FXML
 	void doTecnici(ActionEvent event) throws IOException {
+		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("GestioneContabilitàDirezionale.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
 		ModelMain model= new ModelMain();
@@ -285,7 +288,7 @@ public class GestioneContabilitàDirezionaleController {
 	@FXML
 	void legenda(ActionEvent event) throws IOException {
 
-
+        if(!isOpen) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
 
 		SplitPane root = (SplitPane) loader.load();
@@ -294,7 +297,11 @@ public class GestioneContabilitàDirezionaleController {
 		Stage stage = new Stage();
 
 		stage.setScene(scene);
+		
 		stage.show();
+		isOpen=true;
+		
+        } 
 
 
 
@@ -302,7 +309,21 @@ public class GestioneContabilitàDirezionaleController {
 	}
 
 
-	public static Map<Integer, ReportValoriTecnici> getValori() {
+	public static Map<Integer, ContabilitàAgente> getTecnici() {
+		return tecnici;
+	}
+
+	public static LinkedList<ReportValoriTecnici> getValori() {
+		LinkedList<ReportValoriTecnici> lista= new LinkedList<ReportValoriTecnici>();
+		for(ReportValoriTecnici t : valori.values()) {
+			lista.add(t);
+		}
+		Collections.sort(lista);
+		return lista;
+	}
+	
+	public static Map<Integer,ReportValoriTecnici> getValori2() {
+		
 		return valori;
 	}
 

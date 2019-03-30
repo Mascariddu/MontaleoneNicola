@@ -9,9 +9,10 @@ package it.polito.gestionecontabilitàdirezionale.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
-
+import it.polito.contabilitàdirezionale.model.ContabilitàAgente;
 import it.polito.contabilitàdirezionale.model.ModelMain;
 import it.polito.contabilitàdirezionale.model.ReportValoriTecnici;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,14 +26,22 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Side;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 
@@ -54,6 +63,9 @@ public class ReportController {
 
 	@FXML // fx:id="buttonreport"
 	private JFXButton buttonreport; // Value injected by FXMLLoader
+	@FXML // fx:id="buttonreport"
+	private JFXButton buttonpie; // Value injected by FXMLLoader
+
 
 	@FXML // fx:id="anchorpane2"
 	private AnchorPane anchorpane2; // Value injected by FXMLLoader
@@ -96,12 +108,59 @@ public class ReportController {
 
 	ObservableList<ReportValoriTecnici> obs= FXCollections.observableArrayList();
 	FilteredList<ReportValoriTecnici> flist = new FilteredList<ReportValoriTecnici>(obs, e->true);
-
+	ObservableList<PieChart.Data> obs2= FXCollections.observableArrayList();
+	PieChart pieChart=null;
+	BorderPane root;
+	Stage stageP;
+	boolean isOpen=false;
+	private JFXTextField label;
 	@FXML
 	void doReport(ActionEvent event) {
 
 	}
+	@FXML
+	void pie(ActionEvent event) throws IOException {
 
+		float somma1=(float) 0.0;
+		float somma2=(float) 0.0;
+		float somma3=(float) 0.0;
+		if(pieChart==null) {
+			stageP = new Stage();
+			for(ContabilitàAgente  ca: GestioneContabilitàDirezionaleController.getTecnici().values()) {
+				somma1+=ca.getTotale();
+				somma2+=ca.getTot_manodopera();
+				somma3+=ca.getTot_inst();
+			}
+			somma1= (float) (Math.floor(somma1*100)/100);
+			somma2= (float) (Math.floor(somma2*100)/100);
+			somma3= (float) (Math.floor(somma3*100)/100);
+			obs2.addAll(new PieChart.Data("Totale manutenzioni\n ordinarie", somma1),new PieChart.Data("Totale manodopera\n straordinarie", somma2),new PieChart.Data("Totale installazioni",somma3));
+			root = new BorderPane();
+			Scene scene = new Scene(root,500,500);
+			pieChart= new PieChart();
+			pieChart.setData(obs2);
+			pieChart.setTitle("Totale fatturato");
+			pieChart.setLegendSide(Side.BOTTOM);
+			pieChart.setLegendVisible(true);
+			root.setCenter(pieChart);
+			label= new JFXTextField();
+			label.setEditable(false);
+
+			label.setFont(Font.font("Sanserif", FontWeight.BOLD, 15));
+			pieChart.getData().stream().forEach(data->{data.getNode().addEventHandler(MouseEvent.ANY, e->{
+				label.setText(data.getName()+" "+data.getPieValue());
+			});
+			});
+			BorderPane.setMargin(label,new  Insets(0,0,10, 120));
+
+
+			root.setBottom(label);
+			stageP.setScene(scene);
+			stageP.show();
+		} else {
+			stageP.show();
+		}
+	}
 	@FXML
 	void doTecnici(ActionEvent event) throws IOException {
 
@@ -149,21 +208,27 @@ public class ReportController {
 
 	@FXML
 	void legenda(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
+		if(((Stage) ((Node)(event.getSource())).getScene().getWindow()).isShowing()) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
 
-		SplitPane root = (SplitPane) loader.load();
-		Scene scene = new Scene(root);
+			SplitPane root = (SplitPane) loader.load();
+			Scene scene = new Scene(root);
 
-		Stage stage = new Stage();
+			Stage stage = new Stage();
 
-		stage.setScene(scene);
-		stage.show();
+			stage.setScene(scene);
+			stage.show();
+			isOpen=true;
+
+		} else {
+			((Stage) ((Node)(event.getSource())).getScene().getWindow()).show();
+		}
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
 
-		for(ReportValoriTecnici rp: GestioneContabilitàDirezionaleController.getValori().values()) {
+		for(ReportValoriTecnici rp: GestioneContabilitàDirezionaleController.getValori()) {
 			obs.add(rp);
 		}
 

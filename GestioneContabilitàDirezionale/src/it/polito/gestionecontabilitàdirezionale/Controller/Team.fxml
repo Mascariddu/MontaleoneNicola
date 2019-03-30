@@ -7,6 +7,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -98,7 +99,7 @@
                <content>
                   <AnchorPane prefHeight="630.0" prefWidth="921.0">
                      <children>
-                        <ScrollPane fx:id="sp" fitToHeight="true" fitToWidth="true" layoutX="46.0" layoutY="130.0">
+                        <ScrollPane fx:id="sp" fitToHeight="true" fitToWidth="true" layoutX="46.0" layoutY="130.0" prefHeight="235.0" prefWidth="871.0">
                            <content>
                               <TableView fx:id="table1" prefHeight="286.0" prefWidth="869.0">
                                  <columns>
@@ -111,21 +112,22 @@
                               </TableView>
                            </content>
                         </ScrollPane>
-                        <JFXTextField fx:id="enter2" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="46.0" layoutY="24.0" onKeyReleased="#entername2" promptText="Immetti nome o fatturato">
+                        <JFXTextField fx:id="enter2" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="46.0" layoutY="24.0" onKeyReleased="#entername2" promptText="Immetti nome ">
                            <font>
                               <Font size="11.0" />
                            </font></JFXTextField>
-                        <JFXComboBox fx:id="combobox" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="46.0" layoutY="495.0" onAction="#combo" prefHeight="26.0" prefWidth="175.0" promptText="Seleziona">
+                        <JFXComboBox fx:id="combobox" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="46.0" layoutY="398.0" onAction="#combo" prefHeight="26.0" prefWidth="221.0" promptText="Seleziona">
                            <effect>
                               <Reflection />
                            </effect>
                         </JFXComboBox>
-                        <JFXTextArea fx:id="setArea" editable="false" focusColor="MEDIUMTURQUOISE" layoutX="409.0" layoutY="432.0" />
+                        <JFXTextArea fx:id="setArea" editable="false" focusColor="MEDIUMTURQUOISE" layoutX="409.0" layoutY="451.0" />
                         <JFXTextField fx:id="enterf" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="792.0" layoutY="35.0" onKeyReleased="#enterfat" promptText="Immetti fatturato">
                            <font>
                               <Font size="11.0" />
                            </font>
                         </JFXTextField>
+                        <PieChart fx:id="pie" labelLineLength="10.0" layoutX="46.0" layoutY="472.0" prefHeight="209.0" prefWidth="318.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -134,7 +136,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" layoutX="44.0" layoutY="28.0" onKeyReleased="#entername" promptText="Immetti nome o ritorni">
+                        <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="44.0" layoutY="28.0" onKeyReleased="#entername" promptText="Immetti nome">
                            <font>
                               <Font size="11.0" />
                            </font></JFXTextField>
@@ -151,7 +153,7 @@
                               </TableView>
                            </content>
                         </ScrollPane>
-                        <JFXTextField fx:id="enterr" focusColor="MEDIUMTURQUOISE" layoutX="790.0" layoutY="50.0" onKeyReleased="#enterrit" promptText="Immetti nome o ritorni">
+                        <JFXTextField fx:id="enterr" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="790.0" layoutY="50.0" onKeyReleased="#enterrit" promptText="Immetti ritorni">
                            <font>
                               <Font size="11.0" />
                            </font>

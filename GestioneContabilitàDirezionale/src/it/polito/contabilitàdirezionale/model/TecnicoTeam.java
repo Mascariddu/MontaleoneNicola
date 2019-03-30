@@ -79,6 +79,11 @@ public class TecnicoTeam {
 	public void setFatturato(double fatturato) {
 		this.fatturato = fatturato;
 	}
+	@Override
+	public String toString() {
+		return nome1+"           "+nome2+"\n"+" "+fatturato+"\n";
+	}
+	
 
 
 
