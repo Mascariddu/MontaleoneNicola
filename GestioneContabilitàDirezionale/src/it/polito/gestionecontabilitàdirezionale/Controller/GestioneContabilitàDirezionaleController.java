@@ -13,6 +13,7 @@ package it.polito.gestionecontabilitàdirezionale.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
+
 import it.polito.contabilitàdirezionale.model.ContabilitàAgente;
 import it.polito.contabilitàdirezionale.model.ModelMain;
 import it.polito.contabilitàdirezionale.model.ReportValoriTecnici;
@@ -49,6 +50,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+
 import javafx.stage.Stage;
 
 
@@ -72,7 +74,7 @@ public class GestioneContabilitàDirezionaleController {
 	@FXML // fx:id="buttonreport"
 	private JFXButton buttonreport; // Value injected by FXMLLoader
 
-	@FXML // fx:id="buttonteam"
+	@FXML // fx:id="buttontecnici"
 	private JFXButton buttontecnici; // Value injected by FXMLLoader
 
 	@FXML // fx:id="anchorpane2"
@@ -80,6 +82,7 @@ public class GestioneContabilitàDirezionaleController {
 
 	@FXML // fx:id="sp"
 	private ScrollPane sp; // Value injected by FXMLLoader
+
 
 	@FXML // fx:id="table"
 	private TableView<ContabilitàAgente> table; // Value injected by FXMLLoader
@@ -395,7 +398,7 @@ public class GestioneContabilitàDirezionaleController {
 		table.setItems(obs);
 		sp.setFitToHeight(true);
 		sp.setFitToWidth(true);
-        
+		
 
 
 	}

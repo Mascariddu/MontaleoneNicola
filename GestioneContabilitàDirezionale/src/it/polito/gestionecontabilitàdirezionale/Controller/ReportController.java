@@ -28,7 +28,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ScrollPane;
@@ -139,7 +138,7 @@ public class ReportController {
 			Scene scene = new Scene(root,500,500);
 			pieChart= new PieChart();
 			pieChart.setData(obs2);
-			pieChart.setTitle("Totale fatturato");
+			pieChart.setTitle("Totale fatturato(\u20ac)");
 			pieChart.setLegendSide(Side.BOTTOM);
 			pieChart.setLegendVisible(true);
 			root.setCenter(pieChart);
@@ -148,7 +147,7 @@ public class ReportController {
 
 			label.setFont(Font.font("Sanserif", FontWeight.BOLD, 15));
 			pieChart.getData().stream().forEach(data->{data.getNode().addEventHandler(MouseEvent.ANY, e->{
-				label.setText(data.getName()+" "+data.getPieValue());
+			label.setText(data.getName()+" "+(Math.floor(data.getPieValue()*100)/100)+" \u20ac");
 			});
 			});
 			BorderPane.setMargin(label,new  Insets(0,0,10, 120));
@@ -208,7 +207,7 @@ public class ReportController {
 
 	@FXML
 	void legenda(ActionEvent event) throws IOException {
-		if(((Stage) ((Node)(event.getSource())).getScene().getWindow()).isShowing()) {
+		
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
 
 			SplitPane root = (SplitPane) loader.load();
@@ -220,9 +219,7 @@ public class ReportController {
 			stage.show();
 			isOpen=true;
 
-		} else {
-			((Stage) ((Node)(event.getSource())).getScene().getWindow()).show();
-		}
+		
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
@@ -257,7 +254,7 @@ public class ReportController {
 		aspett_1.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta"));
 		Asp_2.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta_vs_app"));
 		incidenza.setCellValueFactory(new PropertyValueFactory<>("incidenza_ritorni"));
-
+        
 
 		table.setItems(obs);
 		sp.setFitToHeight(true);

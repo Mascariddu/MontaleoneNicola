@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
-
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import it.polito.gestionecontabilitàdirezionale.Controller.GestioneContabilitàDirezionaleController;
@@ -43,8 +42,8 @@ public class ModelMain {
 			for(ReportValoriTecnici tecnico2: map2.values()) {
                 
 				peso=tecnico1.getTot_fat()-tecnico2.getTot_fat();
+				if(peso>0) {
 				
-				if(peso>=50000 ) {
 					if(!grafo.containsVertex(tecnico1))
 						grafo.addVertex(tecnico1);
 					if(!grafo.containsVertex(tecnico2))
@@ -87,10 +86,10 @@ public class ModelMain {
 
 
 			for(ReportValoriTecnici tecnico2: map2.values()) {
-
+				peso=(int) (tecnico1.getRic_str_vs_app()+tecnico2.getRic_str_vs_app());
 				//peso=(int) (tecnico1.getRic_str_vs_app()-tecnico2.getRic_str_vs_app());
-				if(tecnico1.getRic_str_vs_app()<=10 && tecnico2.getRic_str_vs_app()>10) {
-					peso=(int) (tecnico1.getRic_str_vs_app()+tecnico2.getRic_str_vs_app());
+				if(tecnico1.getRic_str_vs_app()<=10 && tecnico2.getRic_str_vs_app()>10 && peso<=45) {
+				
 					if(!grafo2.containsVertex(tecnico1))
 						grafo2.addVertex(tecnico1);
 					if(!grafo2.containsVertex(tecnico2))

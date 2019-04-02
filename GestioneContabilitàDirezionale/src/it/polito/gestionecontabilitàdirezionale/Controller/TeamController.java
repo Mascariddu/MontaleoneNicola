@@ -21,8 +21,8 @@ import it.polito.contabilitàdirezionale.model.TecnicoTeamRitorni;
 
 import java.io.IOException;
 import java.net.URL;
-
-
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import java.util.function.Predicate;
@@ -140,6 +140,7 @@ public class TeamController {
 	ObservableList<TecnicoTeam> obs= FXCollections.observableArrayList();
 	FilteredList<TecnicoTeam> flist = new FilteredList<TecnicoTeam>(obs, e->true);
 
+
 	ObservableList<TecnicoTeamRitorni> obs2= FXCollections.observableArrayList();
 	FilteredList<TecnicoTeamRitorni> flist2 = new FilteredList<TecnicoTeamRitorni>(obs2, e->true);
 	@FXML
@@ -161,7 +162,7 @@ public class TeamController {
 	void doTeam(ActionEvent event) {
 
 	}
-	
+
 
 	@FXML
 	void doTecnici(ActionEvent event) throws IOException {
@@ -227,6 +228,7 @@ public class TeamController {
 		SortedList<TecnicoTeam> sort= new SortedList<TecnicoTeam>(flist);
 		sort.comparatorProperty().bind(table1.comparatorProperty());
 		table1.setItems(sort);
+
 	}
 
 	@FXML
@@ -245,6 +247,7 @@ public class TeamController {
 		SortedList<TecnicoTeam> sort= new SortedList<TecnicoTeam>(flist);
 		sort.comparatorProperty().bind(table1.comparatorProperty());
 		table1.setItems(sort);
+
 	}
 
 
@@ -267,21 +270,36 @@ public class TeamController {
 
 	@FXML
 	void combo(ActionEvent event) {
-		
+
 		ContabilitàAgente ca=null;
-		
+		List<TecnicoTeamRitorni> team2= new LinkedList<TecnicoTeamRitorni>();
 		ReportValoriTecnici rvt= combobox.getValue();
-		
+
+		String resultSpace="\n";
+		String result2="";
 		pie.getData().clear();
 		pie.setTitle("Fatturato: "+rvt.getNome());
-	    pie.getData().addAll(ModelMain.initPieArea(rvt));
-		
-	    String result=ModelMain.getTeamProposto(rvt);
-		
+		pie.getData().addAll(ModelMain.initPieArea(rvt));
+
+		String result=ModelMain.getTeamProposto(rvt);
+
 		for(ContabilitàAgente c : GestioneContabilitàDirezionaleController.getTecnici().values())  {
 			if(c.getId()==rvt.getId()) {
 				ca=c;
 			}
+		}
+		for(TecnicoTeamRitorni t: ModelMain.getTeamRitorni()) {
+			if(t.getId1()==rvt.getId() || t.getId2()==rvt.getId()) {
+				team2.add(t);
+			}
+
+		}
+		for(TecnicoTeamRitorni t5: team2) {
+
+
+			result2+="Tecnico A: "+t5.getNome1()+" \nTecnico B: "+t5.getNome2()+resultSpace+"\n";
+
+
 		}
 		if(rvt.getIncidenza_ritorni()>=.25 && rvt.getRic_str_vs_app()<0 ) {
 			if(ca.getTot_costomanodopera()>ca.getTot_manodopera()) {
@@ -293,7 +311,7 @@ public class TeamController {
 						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria. "
 						+ "Il risultato è da leggere quindi positivamente.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)"
+						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)+\" \\u20ac\""
 						+ "\n"
 						+ "OBIETTIVI:\n"
 						+ "\n"
@@ -305,7 +323,10 @@ public class TeamController {
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
 						+ "\n"
-						+result+"\n");
+						+result+"\n "
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			} else {
 				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
 						+ "Il dato in statistica è negativo, significa che il numero delle ricevute "
@@ -326,7 +347,10 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ ""
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			}
 		}
 		if(rvt.getIncidenza_ritorni()<=.25 && rvt.getRic_str_vs_app()>0  ) {
@@ -337,7 +361,10 @@ public class TeamController {
 						+ "Il dato in statistica è postivo, significa che il numero delle ricevute "
 						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica"
 						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
-						+ "Il risultato è da leggere quindi negativamente"
+						+ "Il risultato è da leggere quindi negativamente\n"
+						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
+						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
+						+ "purchè non sia stato prelevato un cambio dal magazzino."
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)"
 						+ "\n"
@@ -352,13 +379,17 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ ""
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			}else {
 				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
 						+ "Il dato in statistica è positivo, significa che il numero delle ricevute "
 						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
 						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
 						+ "Il risultato è da leggere quindi negativamente.\n"
+						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
+						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
+						+ "purchè non sia stato prelevato un cambio dal magazzino."
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
 						+ "\n"
@@ -373,7 +404,10 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ "\n"
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			}
 		}
 		if(rvt.getIncidenza_ritorni()>=.25 && rvt.getRic_str_vs_app()>0  ) {
@@ -385,6 +419,9 @@ public class TeamController {
 						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
 						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
 						+ "Il risultato è da leggere quindi negativamente.\n"
+						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
+						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
+						+ "purchè non sia stato prelevato un cambio dal magazzino."
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)\n"
 						+ "\n"
@@ -398,13 +435,21 @@ public class TeamController {
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac \n "
+								+ "\n"
+								+ "TECNICO DA RICOLLOCARE");
 			} else {
 				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
 						+ "Il dato in statistica è positivo, significa che il numero delle ricevute "
 						+ "risulta essere maggiore degli appuntamenti in straordinaria: questo accade perchè la statistica\n"
 						+ "considera validi anche gli appuntamenti in straordinaria con ordinaria."
 						+ "Il risultato è da leggere quindi negativamente.\n"
+						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
+						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
+						+ "purchè non sia stato prelevato un cambio dal magazzino."
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è negativo(deve essere minore di 0.25).\n"
 						+ "\n"
@@ -419,7 +464,12 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ "\n"
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac \n"
+				+ "\n"
+				+ "TECNICO DA RICOLLOCARE");
 			}
 
 		}
@@ -447,7 +497,10 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ ""
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			}else {
 				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
 						+ "Il dato in statistica è negativo, significa che il numero delle ricevute "
@@ -469,7 +522,10 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ ""
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			}
 		}
 		else if(rvt.getIncidenza_ritorni()==.0 && rvt.getRic_str_vs_app()==0 ) {
@@ -483,7 +539,10 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ "\n"
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n "
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			} else {
 				setArea.setText("Valori insufficenti: assunzione temporanea per installazioni.\n"
 						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
@@ -492,17 +551,21 @@ public class TeamController {
 						+ "PROPOSTA TEAM:\n"
 						+ "\n"
 						+ "\n"
-						+result+"\n");
+						+result+"\n"
+						+ "\n"
+						+ result2+"\n"
+						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			}
 
 		}
 
 	} 
-	
+
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
 
 		for(TecnicoTeam t : ModelMain.getTeam()) {
+
 			obs.add(t);
 		}
 		for(TecnicoTeamRitorni t2 : ModelMain.getTeamRitorni()) {

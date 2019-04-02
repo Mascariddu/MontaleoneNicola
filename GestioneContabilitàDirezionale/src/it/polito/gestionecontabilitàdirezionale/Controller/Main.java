@@ -2,7 +2,7 @@ package it.polito.gestionecontabilitàdirezionale.Controller;
 
 import it.polito.contabilitàdirezionale.model.ModelMain;
 import javafx.application.Application;
-
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -33,6 +33,7 @@ public class Main extends Application {
           
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			primaryStage.setOnCloseRequest(e ->Platform.exit());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
