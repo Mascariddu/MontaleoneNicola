@@ -12,7 +12,6 @@
 }
 
 
-
 .table-view .column-header ,
 .table-view .column-header-background,
 .table-view .column-header-background .filler{
@@ -108,7 +107,7 @@
     -fx-background-radius : 0.0em;
     -fx-border-radius :2.0em;
 }
-
+ 
 
 .scroll-bar:horizontal .increment-button ,
 .scroll-bar:horizontal .decrement-button {

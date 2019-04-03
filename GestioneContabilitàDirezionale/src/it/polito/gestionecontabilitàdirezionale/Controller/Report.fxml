@@ -89,7 +89,7 @@
       </VBox>
       <AnchorPane fx:id="anchorpane2" layoutX="203.0" minHeight="514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Immetti nome o Id">
+            <JFXTextField fx:id="enter" focusColor="MEDIUMTURQUOISE" labelFloat="true" layoutX="25.0" layoutY="35.0" onKeyReleased="#entername" promptText="Immetti nome">
                <font>
                   <Font size="11.0" />
                </font></JFXTextField>
@@ -110,7 +110,7 @@
                   </TableView>
                </content>
             </ScrollPane>
-            <JFXButton fx:id="buttontpie" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="780.0" layoutY="34.0" onAction="#pie" prefHeight="47.0" prefWidth="203.0" ripplerFill="MEDIUMTURQUOISE" text="PieChart Fatturato">
+            <JFXButton fx:id="buttontpie" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" layoutX="780.0" layoutY="34.0" onAction="#pie" prefHeight="47.0" prefWidth="203.0" ripplerFill="MEDIUMTURQUOISE" text="PieChart  Globale">
                <padding>
                   <Insets left="50.0" />
                </padding>

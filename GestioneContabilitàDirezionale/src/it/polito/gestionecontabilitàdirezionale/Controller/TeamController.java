@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 
 import java.util.function.Predicate;
 
+import org.jgrapht.Graphs;
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -272,7 +274,7 @@ public class TeamController {
 	void combo(ActionEvent event) {
 
 		ContabilitàAgente ca=null;
-		List<TecnicoTeamRitorni> team2= new LinkedList<TecnicoTeamRitorni>();
+
 		ReportValoriTecnici rvt= combobox.getValue();
 
 		String resultSpace="\n";
@@ -288,19 +290,16 @@ public class TeamController {
 				ca=c;
 			}
 		}
-		for(TecnicoTeamRitorni t: ModelMain.getTeamRitorni()) {
-			if(t.getId1()==rvt.getId() || t.getId2()==rvt.getId()) {
-				team2.add(t);
-			}
 
+		for(ReportValoriTecnici t5 :Graphs.neighborListOf(ModelMain.getGrafo(), rvt)) {
+			result2+="Tecnico A: "+t5.getNome()+" \nTecnico B: "+rvt.getNome()+resultSpace+"\n";
 		}
-		for(TecnicoTeamRitorni t5: team2) {
 
 
-			result2+="Tecnico A: "+t5.getNome1()+" \nTecnico B: "+t5.getNome2()+resultSpace+"\n";
 
 
-		}
+
+
 		if(rvt.getIncidenza_ritorni()>=.25 && rvt.getRic_str_vs_app()<0 ) {
 			if(ca.getTot_costomanodopera()>ca.getTot_manodopera()) {
 				setArea.setText("Costo Manodopera("+ca.getTot_costomanodopera()+")>Ricavi("+ca.getTot_manodopera()+")\nIndice che non vengono "
@@ -320,12 +319,12 @@ public class TeamController {
 						+ "ove è difficile richiedere il corrispettivo\n"
 						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
-						+ "\n"
+						+ "\n "
 						+ "PROPOSTA TEAM:\n"
 						+ "\n"
 						+result+"\n "
 						+ "\n"
-						+ result2+"\n"
+						+ result2+"\n "
 						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			} else {
 				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
@@ -364,7 +363,7 @@ public class TeamController {
 						+ "Il risultato è da leggere quindi negativamente\n"
 						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
 						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
-						+ "purchè non sia stato prelevato un cambio dal magazzino."
+						+ "purchè non sia stato prelevato un cambio dal magazzino.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)"
 						+ "\n"
@@ -389,7 +388,7 @@ public class TeamController {
 						+ "Il risultato è da leggere quindi negativamente.\n"
 						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
 						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
-						+ "purchè non sia stato prelevato un cambio dal magazzino."
+						+ "purchè non sia stato prelevato un cambio dal magazzino.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
 						+ "\n"
@@ -421,7 +420,7 @@ public class TeamController {
 						+ "Il risultato è da leggere quindi negativamente.\n"
 						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
 						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
-						+ "purchè non sia stato prelevato un cambio dal magazzino."
+						+ "purchè non sia stato prelevato un cambio dal magazzino.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)\n"
 						+ "\n"
@@ -439,8 +438,8 @@ public class TeamController {
 						+ "\n"
 						+ result2+"\n"
 						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac \n "
-								+ "\n"
-								+ "TECNICO DA RICOLLOCARE");
+						+ "\n"
+						+ "TECNICO DA RICOLLOCARE");
 			} else {
 				setArea.setText("Ricevute straordinarie vs appuntamenti: "+rvt.getRic_str_vs_app()+"\n"
 						+ "Il dato in statistica è positivo, significa che il numero delle ricevute "
@@ -449,7 +448,7 @@ public class TeamController {
 						+ "Il risultato è da leggere quindi negativamente.\n"
 						+ "E' AMMESSA la non ammissione della ricevuta fiscale solo nei casi\n"
 						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
-						+ "purchè non sia stato prelevato un cambio dal magazzino."
+						+ "purchè non sia stato prelevato un cambio dal magazzino.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
 						+ "Il dato obiettivo è negativo(deve essere minore di 0.25).\n"
 						+ "\n"
@@ -468,8 +467,8 @@ public class TeamController {
 						+ "\n"
 						+ result2+"\n"
 						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac \n"
-				+ "\n"
-				+ "TECNICO DA RICOLLOCARE");
+						+ "\n"
+						+ "TECNICO DA RICOLLOCARE");
 			}
 
 		}

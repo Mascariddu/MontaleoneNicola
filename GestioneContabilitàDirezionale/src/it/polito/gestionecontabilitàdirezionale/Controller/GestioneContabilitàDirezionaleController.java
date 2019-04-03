@@ -191,8 +191,7 @@ public class GestioneContabilitàDirezionaleController {
 		sort.comparatorProperty().bind(table.comparatorProperty());
 		table.setItems(sort);
 	}
-
-
+	
 	@FXML
 	void doReport(ActionEvent event) {
 		model.getValori(tecnici);
@@ -399,7 +398,7 @@ public class GestioneContabilitàDirezionaleController {
 		sp.setFitToHeight(true);
 		sp.setFitToWidth(true);
 		
-
+        
 
 	}
 	

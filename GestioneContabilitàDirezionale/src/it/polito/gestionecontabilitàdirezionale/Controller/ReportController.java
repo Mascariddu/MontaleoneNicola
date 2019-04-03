@@ -9,6 +9,7 @@ package it.polito.gestionecontabilitàdirezionale.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
+
 import it.polito.contabilitàdirezionale.model.ContabilitàAgente;
 import it.polito.contabilitàdirezionale.model.ModelMain;
 import it.polito.contabilitàdirezionale.model.ReportValoriTecnici;
@@ -108,7 +109,9 @@ public class ReportController {
 	ObservableList<ReportValoriTecnici> obs= FXCollections.observableArrayList();
 	FilteredList<ReportValoriTecnici> flist = new FilteredList<ReportValoriTecnici>(obs, e->true);
 	ObservableList<PieChart.Data> obs2= FXCollections.observableArrayList();
+	ObservableList<PieChart.Data> obs3= FXCollections.observableArrayList();
 	PieChart pieChart=null;
+	PieChart pieChart2=null;
 	BorderPane root;
 	Stage stageP;
 	boolean isOpen=false;
@@ -123,6 +126,10 @@ public class ReportController {
 		float somma1=(float) 0.0;
 		float somma2=(float) 0.0;
 		float somma3=(float) 0.0;
+		int somma4= 0;
+		int somma5=0;
+		int somma6=0;
+		
 		if(pieChart==null) {
 			stageP = new Stage();
 			for(ContabilitàAgente  ca: GestioneContabilitàDirezionaleController.getTecnici().values()) {
@@ -130,18 +137,23 @@ public class ReportController {
 				somma2+=ca.getTot_manodopera();
 				somma3+=ca.getTot_inst();
 			}
+			for(ContabilitàAgente  ca: GestioneContabilitàDirezionaleController.getTecnici().values()) {
+				somma4+=ca.getTot_man_str();
+				somma5+=ca.getMan_str_Tyfon();
+				somma6+=ca.getMan_ritorni_ordninaria();
+			}
 			somma1= (float) (Math.floor(somma1*100)/100);
 			somma2= (float) (Math.floor(somma2*100)/100);
 			somma3= (float) (Math.floor(somma3*100)/100);
 			obs2.addAll(new PieChart.Data("Totale manutenzioni\n ordinarie", somma1),new PieChart.Data("Totale manodopera\n straordinarie", somma2),new PieChart.Data("Totale installazioni",somma3));
 			root = new BorderPane();
-			Scene scene = new Scene(root,500,500);
+			Scene scene = new Scene(root,1000, 1000);
 			pieChart= new PieChart();
 			pieChart.setData(obs2);
 			pieChart.setTitle("Totale fatturato(\u20ac)");
 			pieChart.setLegendSide(Side.BOTTOM);
 			pieChart.setLegendVisible(true);
-			root.setCenter(pieChart);
+			root.setLeft(pieChart);
 			label= new JFXTextField();
 			label.setEditable(false);
 
@@ -150,16 +162,42 @@ public class ReportController {
 			label.setText(data.getName()+" "+(Math.floor(data.getPieValue()*100)/100)+" \u20ac");
 			});
 			});
-			BorderPane.setMargin(label,new  Insets(0,0,10, 120));
+			
 
 
 			root.setBottom(label);
 			stageP.setScene(scene);
+			obs3.addAll(new PieChart.Data("Totale manutenzioni\n straordinarie", somma4),new PieChart.Data("Totale straordinarie\n Tyfon", somma5),new PieChart.Data("Totale ritorni\n su ordinaria",somma6));
+			
+			
+			pieChart2= new PieChart();
+			pieChart2.setData(obs3);
+			pieChart2.setTitle("Totale Ricevute e Appuntamenti");
+			pieChart2.setLegendSide(Side.BOTTOM);
+			pieChart2.setLegendVisible(true);
+			root.setRight(pieChart2);
+			pieChart2.getData().stream().forEach(data->{data.getNode().addEventHandler(MouseEvent.ANY, e->{
+				label.setText(data.getName()+" "+data.getPieValue());
+				});
+				});
+			BorderPane.setMargin(label,new  Insets(0,0,10, 120));
+			
+			
+
+		
+			
+
+
+			
+			stageP.setScene(scene);
 			stageP.show();
+			 
 		} else {
 			stageP.show();
 		}
 	}
+
+	
 	@FXML
 	void doTecnici(ActionEvent event) throws IOException {
 
@@ -254,16 +292,19 @@ public class ReportController {
 		aspett_1.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta"));
 		Asp_2.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta_vs_app"));
 		incidenza.setCellValueFactory(new PropertyValueFactory<>("incidenza_ritorni"));
-        
+        incidenza.setCellFactory(column -> new ChangeCell());
+        ric_str.setCellFactory(column -> new ChangeCellRicevuteTyfon());
 
 		table.setItems(obs);
 		sp.setFitToHeight(true);
 		sp.setFitToWidth(true);
-
+        
 	}
 
 	public void setModelMain(ModelMain model) {
 		this.model=model;
 	}
+	
+
 }
 

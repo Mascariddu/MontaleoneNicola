@@ -98,8 +98,8 @@
                   <TableView fx:id="table" pickOnBounds="false" prefHeight="524.0" prefWidth="916.0">
                      <columns>
                         <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="members" prefWidth="194.0" text="TECNICO" />
-                        <TableColumn fx:id="installazioni" prefWidth="150.0" text="1 INSTALLAZIONI" />
+                        <TableColumn fx:id="members" prefWidth="166.0" text="TECNICO" />
+                        <TableColumn fx:id="installazioni" prefWidth="178.0" text="1 INSTALLAZIONI" />
                         <TableColumn fx:id="inst_tot" text="1 TOTALE" />
                         <TableColumn fx:id="tot_man_stra" prefWidth="125.0" text="2 Tot_Man_Str" />
                         <TableColumn fx:id="tot2" text="2 Totale" />
@@ -117,10 +117,10 @@
                         <TableColumn fx:id="man_ord_tot" text="8 Totale" />
                         <TableColumn fx:id="man_ord_pot" prefWidth="116.0" text="9 Man_Ord_Pot" />
                         <TableColumn fx:id="man_pot_tot" text="9 Totale" />
-                        <TableColumn fx:id="man_str_tyfo" prefWidth="125.0" text="10 Man_Str_TYFON" />
-                        <TableColumn fx:id="man_str_ritorni" prefWidth="125.0" text="11 Man_Str_Ritorni" />
-                        <TableColumn fx:id="man_rit_ordninarie" prefWidth="125.0" text="12 Man_Rit_suOrdinarie" />
-                        <TableColumn fx:id="man_ordin_tyfon" prefWidth="125.0" text="13 Man_Ordinarie_TYFON" />
+                        <TableColumn fx:id="man_str_tyfo" minWidth="200.0" prefWidth="175.0" text="10 Man_Str_TYFON" />
+                        <TableColumn fx:id="man_str_ritorni" prefWidth="200.0" text="11 Man_Str_Ritorni" />
+                        <TableColumn fx:id="man_rit_ordninarie" prefWidth="200.0" text="12 Man_Rit_suOrdinarie" />
+                        <TableColumn fx:id="man_ordin_tyfon" prefWidth="200.0" text="13 Man_Ordinarie_TYFON" />
                      </columns>
                   </TableView>
                </content>

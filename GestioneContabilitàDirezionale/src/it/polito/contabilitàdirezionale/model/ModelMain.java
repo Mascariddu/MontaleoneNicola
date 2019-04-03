@@ -69,7 +69,7 @@ public class ModelMain {
 	}
 
 	public static SimpleWeightedGraph<ReportValoriTecnici, DefaultWeightedEdge> getGrafo() {
-		return grafo;
+		return grafo2;
 	}
 
 	public static LinkedList<TecnicoTeam> getTeam() {
@@ -88,7 +88,7 @@ public class ModelMain {
 			for(ReportValoriTecnici tecnico2: map2.values()) {
 				peso=(int) (tecnico1.getRic_str_vs_app()+tecnico2.getRic_str_vs_app());
 				//peso=(int) (tecnico1.getRic_str_vs_app()-tecnico2.getRic_str_vs_app());
-				if(tecnico1.getRic_str_vs_app()<=10 && tecnico2.getRic_str_vs_app()>10 && peso<=45) {
+				if(tecnico1.getRic_str_vs_app()<=15 && tecnico2.getRic_str_vs_app()>15 && peso<=45) {
 				
 					if(!grafo2.containsVertex(tecnico1))
 						grafo2.addVertex(tecnico1);
