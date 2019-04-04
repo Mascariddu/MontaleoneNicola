@@ -166,7 +166,7 @@ public class GestioneContabilitàDirezionaleController {
 	static Map<Integer,ReportValoriTecnici> valori= new TreeMap<Integer,ReportValoriTecnici>();
 	ObservableList<ContabilitàAgente> obs= FXCollections.observableArrayList();
 	FilteredList<ContabilitàAgente> flist = new FilteredList<ContabilitàAgente>(obs, e->true);
-	 private boolean isOpen=false;
+
 	private double tot_fat;
 	private int ric_str_vs_app;
 	private float man_str_vs_app;
@@ -191,7 +191,7 @@ public class GestioneContabilitàDirezionaleController {
 		sort.comparatorProperty().bind(table.comparatorProperty());
 		table.setItems(sort);
 	}
-	
+
 	@FXML
 	void doReport(ActionEvent event) {
 		model.getValori(tecnici);
@@ -279,7 +279,7 @@ public class GestioneContabilitàDirezionaleController {
 
 	@FXML
 	void doTecnici(ActionEvent event) throws IOException {
-		
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("GestioneContabilitàDirezionale.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
 		ModelMain model= new ModelMain();
@@ -290,7 +290,7 @@ public class GestioneContabilitàDirezionaleController {
 	@FXML
 	void legenda(ActionEvent event) throws IOException {
 
-        if(!isOpen) {
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
 
 		SplitPane root = (SplitPane) loader.load();
@@ -299,11 +299,9 @@ public class GestioneContabilitàDirezionaleController {
 		Stage stage = new Stage();
 
 		stage.setScene(scene);
-		
+
 		stage.show();
-		isOpen=true;
-		
-        } 
+
 
 
 
@@ -323,9 +321,9 @@ public class GestioneContabilitàDirezionaleController {
 		Collections.sort(lista);
 		return lista;
 	}
-	
+
 	public static Map<Integer,ReportValoriTecnici> getValori2() {
-		
+
 		return valori;
 	}
 
@@ -397,11 +395,11 @@ public class GestioneContabilitàDirezionaleController {
 		table.setItems(obs);
 		sp.setFitToHeight(true);
 		sp.setFitToWidth(true);
-		
-        
+
+
 
 	}
-	
+
 
 	public void setModelMain(ModelMain model) {
 		this.model=model;

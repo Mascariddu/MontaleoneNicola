@@ -21,14 +21,12 @@ import it.polito.contabilitàdirezionale.model.TecnicoTeamRitorni;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import java.util.function.Predicate;
 
 import org.jgrapht.Graphs;
-import org.jgrapht.graph.DefaultWeightedEdge;
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -290,9 +288,15 @@ public class TeamController {
 				ca=c;
 			}
 		}
+		if((ModelMain.getGrafo().containsVertex(rvt))) {
 
-		for(ReportValoriTecnici t5 :Graphs.neighborListOf(ModelMain.getGrafo(), rvt)) {
-			result2+="Tecnico A: "+t5.getNome()+" \nTecnico B: "+rvt.getNome()+resultSpace+"\n";
+			for(ReportValoriTecnici t5 :Graphs.neighborListOf(ModelMain.getGrafo(), rvt)) {
+
+				result2+="Tecnico A: "+t5.getNome()+" \nTecnico B: "+rvt.getNome()+resultSpace+"\n";
+			}
+		}else {
+			result2="";
+
 		}
 
 
@@ -313,7 +317,7 @@ public class TeamController {
 						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)+\" \\u20ac\""
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "-Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
 						+ "-Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi. "
 						+ "ove è difficile richiedere il corrispettivo\n"
@@ -321,7 +325,7 @@ public class TeamController {
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
 						+ "\n "
 						+ "PROPOSTA TEAM:\n"
-						+ "\n"
+						+ ""
 						+result+"\n "
 						+ "\n"
 						+ result2+"\n "
@@ -336,7 +340,7 @@ public class TeamController {
 						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)."
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
 						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
 						+ "ove è difficile richiedere il corrispettivo.\n"
@@ -345,7 +349,7 @@ public class TeamController {
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
 						+ ""
-						+ "\n"
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n"
@@ -368,7 +372,7 @@ public class TeamController {
 						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)"
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "-Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
 						+ "-Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
 						+ "ove è difficile richiedere il corrispettivo\n"
@@ -377,7 +381,7 @@ public class TeamController {
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
 						+ ""
-						+ "\n"
+						+ ""
 						+result+"\n"
 						+ "PREMIO INSTALLAZIONI: "+ca.getInstallazioni()*25+" \u20ac");
 			}else {
@@ -390,10 +394,10 @@ public class TeamController {
 						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
 						+ "purchè non sia stato prelevato un cambio dal magazzino.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
+						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)."
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
 						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
 						+ "ove è difficile richiedere il corrispettivo.\n"
@@ -401,8 +405,8 @@ public class TeamController {
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso"
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
-						+ "\n"
-						+ "\n"
+						+ ""
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n"
@@ -422,10 +426,10 @@ public class TeamController {
 						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
 						+ "purchè non sia stato prelevato un cambio dal magazzino.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)\n"
+						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)."
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
 						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
 						+ "ove è difficile richiedere il corrispettivo.\n"
@@ -433,7 +437,7 @@ public class TeamController {
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
-						+ "\n"
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n"
@@ -450,10 +454,10 @@ public class TeamController {
 						+ "di esecuzione contestuale della manutenzione ordinaria con straordinaria\n"
 						+ "purchè non sia stato prelevato un cambio dal magazzino.\n"
 						+ "Incidenza ritorni: "+rvt.getIncidenza_ritorni()+"\n"
-						+ "Il dato obiettivo è negativo(deve essere minore di 0.25).\n"
+						+ "Il dato obiettivo è negativo(deve essere minore di 0.25)."
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
 						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
 						+ "ove è difficile richiedere il corrispettivo.\n"
@@ -461,8 +465,8 @@ public class TeamController {
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
-						+ "\n"
-						+ "\n"
+						+ ""
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n"
@@ -486,7 +490,7 @@ public class TeamController {
 						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti\n"
 						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
 						+ "ove è difficile richiedere il corrispettivo.\n"
@@ -495,7 +499,7 @@ public class TeamController {
 						+ "\n"
 						+ "PROPOSTA TEAM:\n"
 						+ ""
-						+ "\n"
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n"
@@ -510,17 +514,17 @@ public class TeamController {
 						+ "Il dato obiettivo è positivo(deve essere minore di 0.25)\n"
 						+ "\n"
 						+ "OBIETTIVI:\n"
-						+ "\n"
+						+ ""
 						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
 						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
 						+ "ove è difficile richiedere il corrispettivo.\n"
 						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
 						+ "\n"
-						+ "\n"
+						+ ""
 						+ "PROPOSTA TEAM:\n"
 						+ ""
-						+ "\n"
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n"
@@ -534,10 +538,16 @@ public class TeamController {
 						+ "Valori insufficenti: assunzione temporanea per installazioni\n"
 						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
-						+ "\n"
+						+ "\n"+ "OBIETTIVI:\n"
+						+ ""
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
+						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso.\n"
 						+ "PROPOSTA TEAM:\n"
-						+ "\n"
-						+ "\n"
+						+ ""
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n "
@@ -547,9 +557,16 @@ public class TeamController {
 						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
 						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso."
 						+ "\n"
+						+ "OBIETTIVI:\n"
+						+ ""
+						+ "Riduzione dei ritorni: Garantire a bordo vettura ricambi ricorrenti.\n"
+						+ "Incrementare le ricevute fiscali con richiesta di corrispettivo al cliente, anche nei casi "
+						+ "ove è difficile richiedere il corrispettivo.\n"
+						+ "Proposizione vendita di accessori sia durante le manutenzioni straordinarie che le manutenzioni ordinarie: cronotermostati, decalcificatori, cartucce di ricambio per decalcificatori. \n"
+						+ "I dispositivi venduti devono essere installati contestualmente all’intervento in corso.\n"
 						+ "PROPOSTA TEAM:\n"
-						+ "\n"
-						+ "\n"
+						+ ""
+						+ ""
 						+result+"\n"
 						+ "\n"
 						+ result2+"\n"

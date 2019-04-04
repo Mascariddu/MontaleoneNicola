@@ -31,19 +31,19 @@ public class ModelMain {
 		// TODO Auto-generated method stub
 
 
-		
+
 
 		Map<Integer, ReportValoriTecnici> map1=GestioneContabilitàDirezionaleController.getValori2();
 		Map<Integer, ReportValoriTecnici> map2=GestioneContabilitàDirezionaleController.getValori2();
-		
+
 		for(ReportValoriTecnici tecnico1: map1.values()) {
-         
+
 
 			for(ReportValoriTecnici tecnico2: map2.values()) {
-                
+
 				peso=tecnico1.getTot_fat()-tecnico2.getTot_fat();
 				if(peso>0) {
-				
+
 					if(!grafo.containsVertex(tecnico1))
 						grafo.addVertex(tecnico1);
 					if(!grafo.containsVertex(tecnico2))
@@ -55,7 +55,7 @@ public class ModelMain {
 						peso= Math.floor(peso*100)/100;
 						TecnicoTeam t= new TecnicoTeam(tecnico1.getId(), tecnico1.getNome(), tecnico2.getId(), tecnico2.getNome(),peso);
 						team.add(t);
-                         
+
 
 					}
 
@@ -88,8 +88,8 @@ public class ModelMain {
 			for(ReportValoriTecnici tecnico2: map2.values()) {
 				peso=(int) (tecnico1.getRic_str_vs_app()+tecnico2.getRic_str_vs_app());
 				//peso=(int) (tecnico1.getRic_str_vs_app()-tecnico2.getRic_str_vs_app());
-				if(tecnico1.getRic_str_vs_app()<=15 && tecnico2.getRic_str_vs_app()>15 && peso<=45) {
-				
+				if(tecnico1.getIncidenza_ritorni()<.25 && tecnico2.getIncidenza_ritorni()>=.25 && peso<=45) {
+
 					if(!grafo2.containsVertex(tecnico1))
 						grafo2.addVertex(tecnico1);
 					if(!grafo2.containsVertex(tecnico2))
@@ -125,7 +125,7 @@ public class ModelMain {
 		GestioneContabilitàDAO dao = new GestioneContabilitàDAO();
 		dao.getData(rvt);
 		return dao.getData(rvt);
-		
+
 	}
 
 	public static String getTeamProposto(ReportValoriTecnici rvt) {
@@ -134,8 +134,8 @@ public class ModelMain {
 		return dao.TeamProposto(rvt);
 	}
 
-	
-	
-	
+
+
+
 
 }

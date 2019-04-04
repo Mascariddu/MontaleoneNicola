@@ -114,7 +114,7 @@ public class ReportController {
 	PieChart pieChart2=null;
 	BorderPane root;
 	Stage stageP;
-	boolean isOpen=false;
+
 	private JFXTextField label;
 	@FXML
 	void doReport(ActionEvent event) {
@@ -129,7 +129,7 @@ public class ReportController {
 		int somma4= 0;
 		int somma5=0;
 		int somma6=0;
-		
+
 		if(pieChart==null) {
 			stageP = new Stage();
 			for(ContabilitàAgente  ca: GestioneContabilitàDirezionaleController.getTecnici().values()) {
@@ -159,17 +159,17 @@ public class ReportController {
 
 			label.setFont(Font.font("Sanserif", FontWeight.BOLD, 15));
 			pieChart.getData().stream().forEach(data->{data.getNode().addEventHandler(MouseEvent.ANY, e->{
-			label.setText(data.getName()+" "+(Math.floor(data.getPieValue()*100)/100)+" \u20ac");
+				label.setText(data.getName()+" "+(Math.floor(data.getPieValue()*100)/100)+" \u20ac");
 			});
 			});
-			
+
 
 
 			root.setBottom(label);
 			stageP.setScene(scene);
 			obs3.addAll(new PieChart.Data("Totale manutenzioni\n straordinarie", somma4),new PieChart.Data("Totale straordinarie\n Tyfon", somma5),new PieChart.Data("Totale ritorni\n su ordinaria",somma6));
-			
-			
+
+
 			pieChart2= new PieChart();
 			pieChart2.setData(obs3);
 			pieChart2.setTitle("Totale Ricevute e Appuntamenti");
@@ -178,26 +178,26 @@ public class ReportController {
 			root.setRight(pieChart2);
 			pieChart2.getData().stream().forEach(data->{data.getNode().addEventHandler(MouseEvent.ANY, e->{
 				label.setText(data.getName()+" "+data.getPieValue());
-				});
-				});
+			});
+			});
 			BorderPane.setMargin(label,new  Insets(0,0,10, 120));
-			
-			
-
-		
-			
 
 
-			
+
+
+
+
+
+
 			stageP.setScene(scene);
 			stageP.show();
-			 
+
 		} else {
 			stageP.show();
 		}
 	}
 
-	
+
 	@FXML
 	void doTecnici(ActionEvent event) throws IOException {
 
@@ -245,19 +245,19 @@ public class ReportController {
 
 	@FXML
 	void legenda(ActionEvent event) throws IOException {
-		
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
 
-			SplitPane root = (SplitPane) loader.load();
-			Scene scene = new Scene(root);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("legenda.fxml"));
 
-			Stage stage = new Stage();
+		SplitPane root = (SplitPane) loader.load();
+		Scene scene = new Scene(root);
 
-			stage.setScene(scene);
-			stage.show();
-			isOpen=true;
+		Stage stage = new Stage();
 
-		
+		stage.setScene(scene);
+		stage.show();
+
+
+
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
@@ -292,19 +292,19 @@ public class ReportController {
 		aspett_1.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta"));
 		Asp_2.setCellValueFactory(new PropertyValueFactory<>("asp_ricevuta_vs_app"));
 		incidenza.setCellValueFactory(new PropertyValueFactory<>("incidenza_ritorni"));
-        incidenza.setCellFactory(column -> new ChangeCell());
-        ric_str.setCellFactory(column -> new ChangeCellRicevuteTyfon());
+		incidenza.setCellFactory(column -> new ChangeCell());
+		ric_str.setCellFactory(column -> new ChangeCellRicevuteTyfon());
 
 		table.setItems(obs);
 		sp.setFitToHeight(true);
 		sp.setFitToWidth(true);
-        
+
 	}
 
 	public void setModelMain(ModelMain model) {
 		this.model=model;
 	}
-	
+
 
 }
 

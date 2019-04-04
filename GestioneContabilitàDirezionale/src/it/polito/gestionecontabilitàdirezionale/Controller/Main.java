@@ -30,7 +30,7 @@ public class Main extends Application {
 				primaryStage.setY(event.getSceneY()-y);
 			});
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-          
+
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.setOnCloseRequest(e ->Platform.exit());

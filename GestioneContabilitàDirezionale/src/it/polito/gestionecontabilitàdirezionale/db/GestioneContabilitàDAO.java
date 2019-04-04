@@ -17,7 +17,7 @@ import javafx.scene.chart.PieChart;
 
 
 public class GestioneContabilitàDAO {
-	 static ObservableList<PieChart.Data> obs2;
+	static ObservableList<PieChart.Data> obs2;
 	public void getvalori(Map<Integer, ContabilitàAgente> tecnici) {
 		// TODO Auto-generated method stub
 		String sql="Select*\n" + 
@@ -50,9 +50,9 @@ public class GestioneContabilitàDAO {
 			PreparedStatement preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setInt(1,rvt.getId());
 			ResultSet res = preparedStatement.executeQuery();
-			
-			
-		
+
+
+
 			while (res.next()) {
 				PieChart.Data d1 = new PieChart.Data("installazioni ",res.getFloat("1 Totale"));
 				PieChart.Data d2 = new PieChart.Data( "manodopera\nstraordinarie",res.getFloat("2 Totale"));
@@ -101,7 +101,7 @@ public class GestioneContabilitàDAO {
 
 		}
 		return "TecnicoA: "+nome1+"\n"
-				+ "TecnicoB: "+nome2;
+		+ "TecnicoB: "+nome2;
 	}
 
 }
