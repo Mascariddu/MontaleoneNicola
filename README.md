@@ -14,3 +14,5 @@ Istruzioni per l'installazione e l'utilizzo dell'applicazione:
 -Aprire il progetto scaricato con Eclipse e lanciare la classe Main nel package “it.polito.gestionecontabilitàdirezionale.Controller" del codice sorgente.
 
 -Cambiare la porta nella classe DBConnect in base al vostro localhost.
+
+Per informazioni rigurado all'uso dell'applicazione vai su:  https://youtu.be/P-b95WS-11M
